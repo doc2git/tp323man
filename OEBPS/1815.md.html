@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ASSIGN标签用于在模板文件中赋值变量，用法如下：</p>
+    <pre>
+      <code>&lt;assign name="var" value="123" /&gt;</code>
+    </pre>
+    <p>在运行模板的时候，赋值了一个<code>var</code>的变量，值是<code>123</code>。</p>
+    <p>name属性支持系统变量，例如：</p>
+    <pre>
+      <code>&lt;assign name="Think.get.id" value="123" /&gt;</code>
+    </pre>
+    <p>表示在模板中给<code>$_GET['id']</code> 赋值了 <code>123</code></p>
+    <p>value属性也支持变量，例如：</p>
+    <pre>
+      <code>&lt;assign name="var" value="$val" /&gt;</code>
+    </pre>
+    <p>或者直接把系统变量赋值给var变量，例如：</p>
+    <pre>
+      <code>&lt;assign name="var" value="$Think.get.name" /&gt;</code>
+    </pre>
+    <p>相当于，执行了：<code>$var = $_GET['name'];</code></p>
+  </body>
+</html>

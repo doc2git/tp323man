@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ThinkPHP支持应用模式定义，每个应用模式有自己的定义文件，用于配置当前模式需要加载的核心文件和配置文件，以及别名定义、行为扩展定义等等。除了模式定义外，应用自身也可以独立定义自己的模式文件。</p>
+    <p>如果应用模式涉及到不同的存储类型，例如采用分布式存储等，就需要另外设置存储类型（STORAGE_TYPE）。不同的存储类型由<strong>Think\Storage</strong>类及相关驱动进行支持。</p>
+    <p>默认情况下的应用模式是普通模式（common），如果要采用其他的应用模式（当然，前提是已经有定义），必须在入口文件中定义，设置<code>APP_MODE</code>常量即可，例如：</p>
+    <pre>
+      <code>// 定义存储类型和应用模式为SAE（用于支持SAE平台）
+define('STORAGE_TYPE','sae');
+define('APP_MODE','sae');
+define('APP_PATH','./Application/');
+require './ThinkPHP/ThinkPHP.php';</code>
+    </pre>
+    <p>应用模式的一个典型应用是对分布式平台的支持，对不同的平台定义不同的应用模式就可以支持。</p>
+    <blockquote class="">
+      <p>以上代码只是示范，其实SAE平台不需要显式定义，因为系统会自动识别SAE平台而采用sae模式。<br/>
+每个入口文件仅能定义一个应用模式，所以，如果需要对相同的应用模块设置不同的应用模式访问，就可以通过增加入口文件的方式来解决。</p>
+    </blockquote>
+    <p>每个应用模式可以定义单独的配置文件，一般是<code>config_模式名称</code>，例如，sae模式下面可以定义：</p>
+    <pre>
+      <code>// 应用配置文件
+Application/Common/Conf/config_sae.php
+// 模块配置文件
+Application/Home/Conf/config_sae.php</code>
+    </pre>
+    <blockquote class="">
+      <p>config_sae配置文件只会sae模式下面加载，如果不是sae模式则不会加载。</p>
+    </blockquote>
+  </body>
+</html>

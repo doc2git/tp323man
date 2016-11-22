@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>空操作是指系统在找不到请求的操作方法的时候，会定位到空操作（<code>_empty</code>）方法来执行，利用这个机制，我们可以实现错误页面和一些URL的优化。</p>
+    <p>例如，下面我们用空操作功能来实现一个城市切换的功能。 我们只需要给CityController类定义一个<code>_empty</code>（空操作）方法：</p>
+    <pre>
+      <code>&lt;?php
+namespace Home\Controller;
+use Think\Controller;
+class CityController extends Controller{
+    public function _empty($name){
+        //把所有城市的操作解析到city方法
+        $this-&gt;city($name);
+    }
+
+    //注意 city方法 本身是 protected 方法
+    protected function city($name){
+        //和$name这个城市相关的处理
+         echo '当前城市' . $name;
+    }
+}</code>
+    </pre>
+    <p>接下来，我们就可以在浏览器里面输入</p>
+    <pre>
+      <code>http://serverName/index.php/Home/City/beijing/
+http://serverName/index.php/Home/City/shanghai/
+http://serverName/index.php/Home/City/shenzhen/</code>
+    </pre>
+    <p>由于City控制器并没有定义beijing、shanghai或者shenzhen操作方法，因此系统会定位到空操作方法 <code>_empty</code>中去解析，_empty方法的参数就是当前URL里面的操作名，因此会看到依次输出的结果是：</p>
+    <pre>
+      <code>当前城市:beijing
+当前城市:shanghai
+当前城市:shenzhen</code>
+    </pre>
+    <blockquote class="">
+      <p>注意：空操作方法仅在你的控制器类继承系统的Think\Controller类才有效，否则需要自己定义 <code>__call</code> 来实现。</p>
+    </blockquote>
+  </body>
+</html>

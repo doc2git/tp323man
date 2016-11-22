@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>如果你的存储数据没有有效期的需求，那么系统还提供了一个快速缓存方法F可以用来更快的操作。</p>
+    <blockquote class="">
+      <p>F方法可以支持不同的存储类型，如果是文件类型的话，默认保存在DATA_PATH目录下面。</p>
+    </blockquote>
+    <p>快速缓存Data数据</p>
+    <pre>
+      <code>F('data',$Data);</code>
+    </pre>
+    <p>快速缓存Data数据，保存到指定的目录</p>
+    <pre>
+      <code>F('data',$Data,TEMP_PATH);</code>
+    </pre>
+    <p>获取缓存数据</p>
+    <pre>
+      <code>$Data = F('data');</code>
+    </pre>
+    <p>删除缓存数据</p>
+    <pre>
+      <code>F('data',NULL);</code>
+    </pre>
+    <p>F方法支持自动创建缓存子目录，在<code>DATA_PATH</code>目录下面缓存data数据，如果User子目录不存在，则自动创建：</p>
+    <pre>
+      <code>F('User/data',$Data);</code>
+    </pre>
+    <p>系统内置的数据字段信息缓存就是用了快速缓存机制。</p>
+  </body>
+</html>

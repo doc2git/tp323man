@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>虚拟模型是指虽然是模型类，但并不会真正的操作数据库的模型。有些时候，我们建立模型类但又不需要进行数据库操作，仅仅是借助模型类来封装一些业务逻辑，那么可以借助虚拟模型来完成。虚拟模型不会自动连接数据库，因此也不会自动检测数据表和字段信息，有两种方式可以定义虚拟模型：</p>
+    <h3 id="%E7%BB%A7%E6%89%BFmodel%E7%B1%BB">继承Model类</h3>
+    <pre>
+      <code>namespace Home\Model;
+Class UserModel extends \Think\Model {
+     Protected $autoCheckFields = false;
+}</code>
+    </pre>
+    <p>设置autoCheckFields属性为false后，就会关闭字段信息的自动检测，因为ThinkPHP采用的是惰性数据库连接，只要你不进行数据库查询操作，是不会连接数据库的。</p>
+    <h3 id="%E4%B8%8D%E7%BB%A7%E6%89%BFmodel%E7%B1%BB">不继承Model类</h3>
+    <pre>
+      <code>namespace Home\Model;
+Class UserModel {
+}</code>
+    </pre>
+    <p>这种方式下面自定义模型类就是一个单纯的业务逻辑类，不能再使用模型的CURD操作方法，但是可以实例化其他的模型类进行相关操作，也可以在需要的时候直接实例化Db类进行数据库操作。</p>
+  </body>
+</html>

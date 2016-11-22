@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>我们可以对模板输出使用运算符，包括对“+”“ ” “*” “/”和“%”的支持。</p>
+    <p>例如：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>运算符</th>
+          <th>使用示例</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>+</td>
+          <td>{$a+$b}</td>
+        </tr>
+        <tr>
+          <td>-</td>
+          <td>{$a-$b}</td>
+        </tr>
+        <tr>
+          <td>*</td>
+          <td>{$a*$b}</td>
+        </tr>
+        <tr>
+          <td>/</td>
+          <td>{$a/$b}</td>
+        </tr>
+        <tr>
+          <td>%</td>
+          <td>{$a%$b}</td>
+        </tr>
+        <tr>
+          <td>++</td>
+          <td>{$a++} 或 {++$a}</td>
+        </tr>
+        <tr>
+          <td>--</td>
+          <td>{$a--} 或 {--$a}</td>
+        </tr>
+        <tr>
+          <td>综合运算</td>
+          <td>{$a+$b*10+$c}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>在使用运算符的时候，不再支持点语法和常规的函数用法，例如：</p>
+    <pre>
+      <code>{$user.score+10} //错误的
+{$user['score']+10} //正确的
+{$user['score']*$user['level']} //正确的
+{$user['score']|myFun*10} //错误的
+{$user['score']+myFun($user['level'])} //正确的</code>
+    </pre>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>UNION操作用于合并两个或多个 SELECT 语句的结果集。</p>
+    <p>使用示例：</p>
+    <pre>
+      <code>$Model-&gt;field('name')
+      -&gt;table('think_user_0')
+      -&gt;union('SELECT name FROM think_user_1')
+      -&gt;union('SELECT name FROM think_user_2')
+      -&gt;select();</code>
+    </pre>
+    <p>数组用法：</p>
+    <pre>
+      <code>$Model-&gt;field('name')
+      -&gt;table('think_user_0')
+      -&gt;union(array('field'=&gt;'name','table'=&gt;'think_user_1'))
+      -&gt;union(array('field'=&gt;'name','table'=&gt;'think_user_2'))
+      -&gt;select();</code>
+    </pre>
+    <p>或者</p>
+    <pre>
+      <code>$Model-&gt;field('name')
+      -&gt;table('think_user_0')
+      -&gt;union(array('SELECT name FROM think_user_1','SELECT name FROM think_user_2'))
+      -&gt;select();</code>
+    </pre>
+    <p>支持UNION ALL 操作，例如：</p>
+    <pre>
+      <code>$Model-&gt;field('name')
+      -&gt;table('think_user_0')
+      -&gt;union('SELECT name FROM think_user_1',true)
+      -&gt;union('SELECT name FROM think_user_2',true)
+      -&gt;select();</code>
+    </pre>
+    <p>或者</p>
+    <pre>
+      <code>$Model-&gt;field('name')
+      -&gt;table('think_user_0')
+      -&gt;union(array('SELECT name FROM think_user_1','SELECT name FROM think_user_2'),true)
+      -&gt;select();</code>
+    </pre>
+    <p>每个union方法相当于一个独立的SELECT语句。</p>
+    <blockquote class="">
+      <p>注意：UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同。</p>
+    </blockquote>
+  </body>
+</html>

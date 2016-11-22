@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>从3.0版本开始新增了子查询支持，有两种使用方式：</p>
+    <p>1、使用select方法 当select方法的参数为false的时候，表示不进行查询只是返回构建SQL，例如：</p>
+    <pre>
+      <code>// 首先构造子查询SQL 
+$subQuery = $model-&gt;field('id,name')-&gt;table('tablename')-&gt;group('field')-&gt;where($where)-&gt;order('status')-&gt;select(false); </code>
+    </pre>
+    <p>当select方法传入false参数的时候，表示不执行当前查询，而只是生成查询SQL。</p>
+    <p>2、使用buildSql方法</p>
+    <pre>
+      <code>$subQuery = $model-&gt;field('id,name')-&gt;table('tablename')-&gt;group('field')-&gt;where($where)-&gt;order('status')-&gt;buildSql(); </code>
+    </pre>
+    <p>调用buildSql方法后不会进行实际的查询操作，而只是生成该次查询的SQL语句（为了避免混淆，会在SQL两边加上括号），然后我们直接在后续的查询中直接调用。</p>
+    <pre>
+      <code>// 利用子查询进行查询 
+$model-&gt;table($subQuery.' a')-&gt;where()-&gt;order()-&gt;select() </code>
+    </pre>
+    <p>构造的子查询SQL可用于ThinkPHP的连贯操作方法，例如table where等。</p>
+  </body>
+</html>

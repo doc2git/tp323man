@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>这里说的驱动扩展是一种泛指，ThinkPHP采用驱动式设计，很多功能的扩展都是基于驱动的思想，包括数据库驱动、缓存驱动、标签库驱动和模板引擎驱动等。</p>
+    <p>事实上，每个类库都可以设计自己的驱动，因此3.2版本的驱动目录没有独立出来，而是放到各个类库的命名空间下面，例如：<code>Think\Log</code>类的驱动放到 <code>Think\Log\Driver</code> 命名空间下面，<code>Think\Db</code>类的驱动放到了 <code>Think\Db\Driver</code> 命名空间下面。</p>
+    <blockquote class="">
+      <p>当然，这只是建议的位置，你完全可以根据项目的需要，把自己的驱动独立存放，例如： <code>Home\Driver\Cache\Sae.class.php</code> 则是一种把Cache驱动独立存放的方式（内置的核心类库都支持给驱动指定单独的命名空间）。</p>
+    </blockquote>
+  </body>
+</html>

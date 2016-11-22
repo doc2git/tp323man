@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>无论何种配置文件，定义了配置文件之后，都统一使用系统提供的C方法（可以借助Config单词来帮助记忆）来读取已有的配置。</p>
+    <p>用法：</p>
+    <h4 id="c%28%27%E5%8F%82%E6%95%B0%E5%90%8D%E7%A7%B0%27%29">C('参数名称')</h4>
+    <p>例如，读取当前的URL模式配置参数：</p>
+    <pre>
+      <code>$model = C('URL_MODEL');
+// 由于配置参数不区分大小写，因此下面的写法是等效的
+// $model = C('url_model');</code>
+    </pre>
+    <p>但是建议使用大写方式的规范。</p>
+    <blockquote class="">
+      <p>注意：配置参数名称中不能含有 “.” 和特殊字符，允许字母、数字和下划线。</p>
+    </blockquote>
+    <p>如果<code>url_model</code>尚未存在设置，则返回NULL。</p>
+    <p>支持在读取的时候设置默认值，例如：</p>
+    <pre>
+      <code>// 如果my_config尚未设置的话，则返回default_config字符串
+C('my_config',null,'default_config');</code>
+    </pre>
+    <p>C方法也可以用于读取二维配置：</p>
+    <pre>
+      <code>//获取用户配置中的用户类型设置
+C('USER_CONFIG.USER_TYPE');</code>
+    </pre>
+    <p>因为配置参数是全局有效的，因此C方法可以在任何地方读取任何配置，即使某个设置参数已经生效过期了。</p>
+  </body>
+</html>

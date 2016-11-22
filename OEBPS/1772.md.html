@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>在应用中我们经常会用到一些统计数据，例如当前所有（或者满足某些条件）的用户数、所有用户的最大积分、用户的平均成绩等等，ThinkPHP为这些统计操作提供了一系列的内置方法，包括： </p>
+    <table>
+      <thead>
+        <tr>
+          <th>方法</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Count</td>
+          <td>统计数量，参数是要统计的字段名（可选）</td>
+        </tr>
+        <tr>
+          <td>Max</td>
+          <td>获取最大值，参数是要统计的字段名（必须）</td>
+        </tr>
+        <tr>
+          <td>Min</td>
+          <td>获取最小值，参数是要统计的字段名（必须）</td>
+        </tr>
+        <tr>
+          <td>Avg</td>
+          <td>获取平均值，参数是要统计的字段名（必须）</td>
+        </tr>
+        <tr>
+          <td>Sum</td>
+          <td>获取总分，参数是要统计的字段名（必须）</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>用法示例：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象</code>
+    </pre>
+    <p>获取用户数：</p>
+    <pre>
+      <code>$userCount = $User-&gt;count();</code>
+    </pre>
+    <p>或者根据字段统计：</p>
+    <pre>
+      <code>$userCount = $User-&gt;count("id");</code>
+    </pre>
+    <p>获取用户的最大积分：</p>
+    <pre>
+      <code>$maxScore = $User-&gt;max('score');</code>
+    </pre>
+    <p>获取积分大于0的用户的最小积分：</p>
+    <pre>
+      <code>$minScore = $User-&gt;where('score&gt;0')-&gt;min('score');</code>
+    </pre>
+    <p>获取用户的平均积分：</p>
+    <pre>
+      <code>$avgScore = $User-&gt;avg('score');</code>
+    </pre>
+    <p>统计用户的总成绩：</p>
+    <pre>
+      <code>$sumScore = $User-&gt;sum('score');</code>
+    </pre>
+    <p>并且所有的统计查询均支持连贯操作的使用。</p>
+  </body>
+</html>

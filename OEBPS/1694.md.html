@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>C配置方法支持批量配置，例如：</p>
+    <pre>
+      <code>$config = array('WEB_SITE_TITLE'=&gt;'ThinkPHP','WEB_SITE_DESCRIPTION'=&gt;'开源PHP框架');
+C($config);</code>
+    </pre>
+    <p>$config数组中的配置参数会合并到现有的全局配置中。</p>
+    <p>我们可以通过这种方式读取数据库中的配置参数，例如：</p>
+    <pre>
+      <code>// 读取数据库中的配置（假设有一个config表用于保存配置参数）
+$config =   M('Config')-&gt;getField('name,value');
+// config是一个关联数组 键值就是配置参数 值就是配置值
+// 例如： array('config1'=&gt;'val1','config2'=&gt;'val2',...)
+C($config); // 合并配置参数到全局配置</code>
+    </pre>
+    <p>合并之后，我们就可以和前面读取普通配置参数一样，读取数据库中的配置参数了，当然也可以动态改变。</p>
+    <pre>
+      <code>// 读取合并到全局配置中的数据库中的配置参数
+C('CONFIG1');
+// 动态改变配置参数（当前请求有效，不会自动保存到数据库）
+C('CONFIG2','VALUE_NEW');</code>
+    </pre>
+  </body>
+</html>

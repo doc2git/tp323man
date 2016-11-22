@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>入口绑定是指在应用的入口文件中绑定某个模块，甚至还可以绑定某个控制器和操作，用来简化URL地址的访问。</p>
+    <h2 id="%E7%BB%91%E5%AE%9A%E6%A8%A1%E5%9D%97">绑定模块</h2>
+    <p>例如，我们定义了一个入口文件admin.php，希望可以直接访问Admin模块，那么我们就可以在admin.php中进行模块绑定，定义如下：</p>
+    <pre>
+      <code>// 绑定访问Admin模块
+define('BIND_MODULE','Admin');
+// 定义应用目录
+define('APP_PATH','./Application/');
+require './ThinkPHP/ThinkPHP.php';</code>
+    </pre>
+    <blockquote class="">
+      <p>在3.2.0版本中常量定义需要改成：</p>
+    </blockquote>
+    <pre>
+      <code>$_GET['m'] = 'Admin';</code>
+    </pre>
+    <p>在入口文件中绑定模块后，访问的URL地址中就不需要传入模块名称了。<br/>
+假设我们要访问Admin模块的Index控制器的test操作方法，访问地址如下： <code>http://serverName/admin.php/Index/test/var/name</code> 如果访问 <code>http://serverName/admin.php/Admin/Index/test/var/name</code> 就会出现下面的错误提示：</p>
+    <p>
+      <img src="images/http/box.kancloud.cn/2015-04-18_5531edd1b28a4.jpg" alt="QQ图片20140207194948"/>
+    </p>
+    <h2 id="%E7%BB%91%E5%AE%9A%E6%8E%A7%E5%88%B6%E5%99%A8">绑定控制器</h2>
+    <p>和绑定模块一样，我们还可以绑定控制器（一般是和模块绑定结合使用）。 例如：</p>
+    <pre>
+      <code>// 绑定访问Admin模块
+define('BIND_MODULE','Admin');
+// 绑定访问Index控制器
+define('BIND_CONTROLLER','Index');
+// 定义应用目录
+define('APP_PATH','./Application/');
+require './ThinkPHP/ThinkPHP.php';</code>
+    </pre>
+    <p>我们前面的URL访问就可以换成： <code>http://serverName/admin.php/test/var/name</code></p>
+    <blockquote class="">
+      <p>在3.2.0版本中常量定义需要改成：</p>
+    </blockquote>
+    <pre>
+      <code>$_GET['m'] = 'Admin';
+$_GET['c'] = 'Index';</code>
+    </pre>
+    <h2 id="%E7%BB%91%E5%AE%9A%E6%93%8D%E4%BD%9C">绑定操作</h2>
+    <p>原则上，我们还可以在入口文件中绑定操作（虽然这种情况实际使用中不多见）。</p>
+    <pre>
+      <code>// 绑定访问Admin模块
+define('BIND_MODULE','Admin');
+// 绑定访问Index控制器
+define('BIND_CONTROLLER','Index');
+// 绑定访问test操作
+define('BIND_ACTION','test');
+// 定义应用目录
+define('APP_PATH','./Application/');
+require './ThinkPHP/ThinkPHP.php';</code>
+    </pre>
+    <p>我们前面的URL访问就可以换成： <code>http://serverName/admin.php/var/name</code></p>
+    <blockquote class="">
+      <p>3.2.0版本不支持操作绑定。</p>
+    </blockquote>
+  </body>
+</html>

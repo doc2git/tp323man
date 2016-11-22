@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>order方法属于模型的连贯操作方法之一，用于对操作的结果排序。</p>
+    <p>用法如下：</p>
+    <pre>
+      <code>$Model-&gt;where('status=1')-&gt;order('id desc')-&gt;limit(5)-&gt;select();</code>
+    </pre>
+    <p>注意：连贯操作方法没有顺序，可以在select方法调用之前随便改变调用顺序。</p>
+    <p>支持对多个字段的排序，例如：</p>
+    <pre>
+      <code>$Model-&gt;where('status=1')-&gt;order('id desc,status')-&gt;limit(5)-&gt;select();</code>
+    </pre>
+    <blockquote class="">
+      <p>如果没有指定desc或者asc排序规则的话，默认为asc。</p>
+    </blockquote>
+    <p>如果你的字段和mysql关键字有冲突，那么建议采用数组方式调用，例如：</p>
+    <pre>
+      <code>$Model-&gt;where('status=1')-&gt;order(array('order','id'=&gt;'desc'))-&gt;limit(5)-&gt;select(); </code>
+    </pre>
+  </body>
+</html>

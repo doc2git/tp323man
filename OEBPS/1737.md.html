@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>alias用于设置当前数据表的别名，便于使用其他的连贯操作例如join方法等。</p>
+    <p>示例：</p>
+    <pre>
+      <code>$Model = M('User');
+$Model-&gt;alias('a')-&gt;join('__DEPT__ b ON b.user_id= a.id')-&gt;select();</code>
+    </pre>
+    <p>最终生成的SQL语句类似于：</p>
+    <pre>
+      <code>SELECT * FROM think_user a INNER JOIN think_dept b ON b.user_id= a.id</code>
+    </pre>
+  </body>
+</html>

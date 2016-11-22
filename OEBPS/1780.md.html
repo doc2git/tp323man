@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ThinkPHP支持模型的分层 ，除了Model层之外，我们可以项目的需要设计和创建其他的模型层。</p>
+    <p>通常情况下，不同的分层模型仍然是继承系统的\Think\Model类或其子类，所以，其基本操作和Model类的操作是一致的。</p>
+    <p>例如在Home模块的设计中需要区分数据层、逻辑层、服务层等不同的模型层，我们可以在模块目录下面创建<code>Model</code>、<code>Logic</code>和<code>Service</code>目录，把对用户表的所有模型操作分成三层：</p>
+    <ul>
+      <li>数据层：Home\Model\UserModel 用于定义数据相关的自动验证和自动完成和数据存取接口 </li>
+      <li>逻辑层：Home\Logic\UserLogic 用于定义用户相关的业务逻辑 </li>
+      <li>服务层：Home\Service\UserService 用于定义用户相关的服务接口等 </li>
+    </ul>
+    <p>三个模型层的定义如下：</p>
+    <p>Model类：Home\Model\UserModel.class.php</p>
+    <pre>
+      <code>namespace Home\Model;
+class UserModel extends \Think\Model{
+
+}</code>
+    </pre>
+    <p>实例化方法：<code>D('User');</code></p>
+    <p>Logic类：Home\Logic\UserLogic.class.php</p>
+    <pre>
+      <code>namespace Home\Logic;
+class UserLogic extends \Think\Model{
+
+}</code>
+    </pre>
+    <p>实例化方法：<code>D('User','Logic');</code></p>
+    <p>Api类：Home\Api\UserApi.class.php</p>
+    <pre>
+      <code>namespace Home\Api;
+class UserApi extends \Think\Model{
+
+}</code>
+    </pre>
+    <p>实例化方法：<code>D('User','Api');</code></p>
+    <p>D方法默认操作的模型层由<code>DEFAULT_M_LAYER</code>参数配置，我们可以改变默认操作的模型层为Logic层，例如：</p>
+    <pre>
+      <code>'DEFAULT_M_LAYER'       =&gt;  'Logic', // 默认的模型层名称</code>
+    </pre>
+    <p>这样，当我们调用：</p>
+    <pre>
+      <code>$User = D('User');</code>
+    </pre>
+    <p>的时候其实是实例化的 <code>UserLogic</code>类，而不是<code>UserModel</code>类。</p>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <h2 id="php%E6%95%B0%E7%BB%84%E5%AE%9A%E4%B9%89">PHP数组定义</h2>
+    <p>ThinkPHP框架中默认所有配置文件的定义格式均采用返回<strong>PHP数组</strong>的方式，格式为：</p>
+    <pre>
+      <code>//项目配置文件
+return array(
+    'DEFAULT_MODULE'     =&gt; 'Index', //默认模块
+    'URL_MODEL'          =&gt; '2', //URL模式
+    'SESSION_AUTO_START' =&gt; true, //是否开启session
+    //更多配置参数
+    //...
+);</code>
+    </pre>
+    <p>配置参数不区分大小写（因为无论大小写定义都会转换成小写），所以下面的配置等效：</p>
+    <pre>
+      <code>//项目配置文件
+return array(
+    'default_module'     =&gt; 'Index', //默认模块
+    'url_model'          =&gt; '2', //URL模式
+    'session_auto_start' =&gt; true, //是否开启session
+    //更多配置参数
+    //...
+);</code>
+    </pre>
+    <p>但是我们建议保持大写定义配置参数的规范。</p>
+    <p>还可以在配置文件中可以使用二维数组来配置更多的信息，例如：</p>
+    <pre>
+      <code>//项目配置文件
+return array(
+    'DEFAULT_MODULE'     =&gt; 'Index', //默认模块
+    'URL_MODEL'          =&gt; '2', //URL模式
+    'SESSION_AUTO_START' =&gt; true, //是否开启session
+    'USER_CONFIG'        =&gt; array(
+        'USER_AUTH' =&gt; true,
+        'USER_TYPE' =&gt; 2,
+    ),
+    //更多配置参数
+    //...
+);</code>
+    </pre>
+    <blockquote class="">
+      <p>需要注意的是，二级参数配置区分大小写，也就说读取确保和定义一致。</p>
+    </blockquote>
+    <h2 id="%E5%85%B6%E4%BB%96%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F%E6%94%AF%E6%8C%81">其他配置格式支持</h2>
+    <p>也可以采用<code>yaml/json/xml/ini</code>以及自定义格式的配置文件支持。</p>
+    <p>我们可以在<strong>应用入口文件</strong>中定义应用的配置文件的后缀，例如：</p>
+    <pre>
+      <code>define('CONF_EXT','.ini');</code>
+    </pre>
+    <p>定义后，应用的配置文件（包括模块的配置文件）后缀都统一采用.ini。</p>
+    <blockquote class="">
+      <p>无论是什么格式的配置文件，最终都会解析成数组格式。<br/>
+该配置不会影响框架内部的配置文件加载。</p>
+    </blockquote>
+    <p><strong>ini格式</strong>配置示例：</p>
+    <pre>
+      <code>DEFAULT_MODULE=Index ;默认模块
+URL_MODEL=2 ;URL模式
+SESSION_AUTO_START=on ;是否开启session</code>
+    </pre>
+    <p><strong>xml格式</strong>配置示例：</p>
+    <pre>
+      <code>&lt;config&gt;
+&lt;default_module&gt;Index&lt;/default_module&gt;
+&lt;url_model&gt;2&lt;/url_model&gt;
+&lt;session_auto_start&gt;1&lt;/session_auto_start&gt;
+&lt;/config&gt;</code>
+    </pre>
+    <p><strong>yaml格式</strong>配置示例：</p>
+    <pre>
+      <code>default_module:Index #默认模块
+url_model:2 #URL模式
+session_auto_start:True #是否开启session</code>
+    </pre>
+    <p><strong>json格式</strong>配置示例：</p>
+    <pre>
+      <code>{
+"default_module":"Index",
+"url_model":2,
+"session_auto_start":True
+}</code>
+    </pre>
+    <p>除了<code>yaml/json/xml/ini</code>格式之外，我们还可以自定义配置格式，定义如下：</p>
+    <pre>
+      <code>define('CONF_EXT','.test'); // 配置自定义配置格式（后缀）
+define('CONF_PARSE','parse_test'); // 对应的解析函数</code>
+    </pre>
+    <p>假设我们的自定义配置格式是类似<code>var1=val1&amp;var2=val2</code> 之类的字符串，那么parse_test定义如下：</p>
+    <pre>
+      <code>function parse_test($str){
+    parse_str($str,$config);
+    return (array)$config;
+}</code>
+    </pre>
+    <blockquote class="">
+      <p>CONF_PARSE定义的解析函数返回值必须是一个PHP索引数组。</p>
+    </blockquote>
+  </body>
+</html>

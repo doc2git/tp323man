@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>正则路由也就是采用正则表达式定义路由的一种方式，依靠强大的正则表达式，能够定义更灵活的路由规则。</p>
+    <p>路由表达式支持的正则定义必须以“/”开头，否则就视为规则表达式。也就是说如果采用：</p>
+    <pre>
+      <code>'#^blog\/(\d+)$#' =&gt; 'Blog/read/id/:1'</code>
+    </pre>
+    <p>方式定义的正则表达式不会被支持，而会被认为是规则表达式进行解析，从而无法正确匹配。</p>
+    <p>下面是一种正确的正则路由定义：</p>
+    <pre>
+      <code>'/^new\/(\d{4})\/(\d{2})$/' =&gt; 'News/achive?year=:1&amp;month=:2',</code>
+    </pre>
+    <blockquote class="">
+      <p>对于正则表达式中的每个变量（即正则规则中的子模式）部分，如果需要在后面的路由地址中引用，可以采用:1、:2这样的方式，序号就是子模式的序号。</p>
+    </blockquote>
+    <p>正则定义也支持函数过滤处理，例如：</p>
+    <pre>
+      <code>'/^new\/(\d{4})\/(\d{2})$/' =&gt; 'News/achive?year=:1|format_year&amp;month=:2',</code>
+    </pre>
+    <p>其中 year=:1|format_year 就表示对匹配到的变量进行format_year函数处理（假设format_year是一个用户自定义函数）。</p>
+    <p>更多的关于如何定义正则表达式就不在本文的描述范畴了。</p>
+  </body>
+</html>

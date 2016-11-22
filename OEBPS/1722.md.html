@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <h2 id="%E5%88%A4%E6%96%AD%E8%AF%B7%E6%B1%82%E7%B1%BB%E5%9E%8B">判断请求类型</h2>
+    <p>在很多情况下面，我们需要判断当前操作的请求类型是GET 、POST 、PUT或 DELETE，一方面可以针对请求类型作出不同的逻辑处理，另外一方面有些情况下面需要验证安全性，过滤不安全的请求。 </p>
+    <p>系统内置了一些常量用于判断请求类型，包括：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>常量</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>IS_GET</td>
+          <td>判断是否是GET方式提交</td>
+        </tr>
+        <tr>
+          <td>IS_POST</td>
+          <td>判断是否是POST方式提交</td>
+        </tr>
+        <tr>
+          <td>IS_PUT</td>
+          <td>判断是否是PUT方式提交</td>
+        </tr>
+        <tr>
+          <td>IS_DELETE</td>
+          <td>判断是否是DELETE方式提交</td>
+        </tr>
+        <tr>
+          <td>IS_AJAX</td>
+          <td>判断是否是AJAX提交</td>
+        </tr>
+        <tr>
+          <td>REQUEST_METHOD</td>
+          <td>当前提交类型</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>使用举例如下：</p>
+    <pre>
+      <code>class UserController extends Controller{
+     public function update(){
+         if (IS_POST){
+             $User = M('User');
+             $User-&gt;create();
+             $User-&gt;save();
+             $this-&gt;success('保存完成');
+         }else{
+             $this-&gt;error('非法请求');
+         }
+     }
+}</code>
+    </pre>
+    <blockquote class="">
+      <p>个别情况下，你可能需要在表单里面添加一个隐藏域，告诉后台属于ajax方式提交，默认的隐藏域名称是ajax（可以通过VAR_AJAX_SUBMIT配置），如果是JQUERY类库的话，则无需添加任何隐藏域即可自动判断。</p>
+    </blockquote>
+  </body>
+</html>

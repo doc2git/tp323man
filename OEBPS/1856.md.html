@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>默认的session驱动的命名空间是<code>Think\Session\Driver</code>,并实现下面的驱动接口：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>方法说明</th>
+          <th>接口方法</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>打开Session</td>
+          <td>open($savePath, $sessionName)</td>
+        </tr>
+        <tr>
+          <td>关闭Session</td>
+          <td>close()</td>
+        </tr>
+        <tr>
+          <td>读取Session</td>
+          <td>read($id)</td>
+        </tr>
+        <tr>
+          <td>写入Session</td>
+          <td>write($id, $data)</td>
+        </tr>
+        <tr>
+          <td>删除Session</td>
+          <td>destory($id)</td>
+        </tr>
+        <tr>
+          <td>Session 过期回收</td>
+          <td>gc($maxlifetime)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>假设我们实现了一个Db类型的session驱动，那么只需要在配置文件中使用：</p>
+    <pre>
+      <code>'SESSION_TYPE'=&gt;'Db'
+// 或者
+'SESSION_OPTIONS'=&gt;array(
+    'type'=&gt;'Db',
+)</code>
+    </pre>
+    <p>系统在初始化Session的时候会自动处理，采用Db机制来处理session。</p>
+  </body>
+</html>

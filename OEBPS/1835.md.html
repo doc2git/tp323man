@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>在ThinkPHP中进行缓存操作，一般情况下并不需要直接操作缓存类，因为系统内置对缓存操作进行了封装，直接采用S方法即可，例如：</p>
+    <h2 id="%E7%BC%93%E5%AD%98%E5%88%9D%E5%A7%8B%E5%8C%96">缓存初始化</h2>
+    <pre>
+      <code>// 缓存初始化
+S(array('type'=&gt;'xcache','expire'=&gt;60));</code>
+    </pre>
+    <p>缓存初始化可以支持的参数根据不同的缓存方式有所区别，常用的参数是： </p>
+    <table>
+      <thead>
+        <tr>
+          <th>参数</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>expire</td>
+          <td>缓存有效期（时间为秒）</td>
+        </tr>
+        <tr>
+          <td>prefix</td>
+          <td>缓存标识前缀</td>
+        </tr>
+        <tr>
+          <td>type</td>
+          <td>缓存类型</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>系统目前已经支持的缓存类型包括：<code>Apachenote、Apc、Db、Eaccelerator、File、Memcache、Redis、Shmop、Sqlite、Wincache和Xcache</code>。</p>
+    <p>如果S方法不传入type参数初始化的话，则读取配置文件中设置的<code>DATA_CACHE_TYPE</code>参数值作为默认类型。同样的道理，prefix参数如果没有传入会读取配置文件的<code>DATA_CACHE_PREFIX</code>参数值，expire参数没有传入则读取<code>DATA_CACHE_TIME</code>配置值作为默认。</p>
+    <p>有些缓存方式会有一些自身特殊的参数，例如Memcache缓存，还需要配置其他的参数：</p>
+    <pre>
+      <code>S(array(
+    'type'=&gt;'memcache',
+    'host'=&gt;'192.168.1.10',
+    'port'=&gt;'11211',
+    'prefix'=&gt;'think',
+    'expire'=&gt;60)
+);</code>
+    </pre>
+    <p>对于全局的缓存方式，一般我们建议添加prefix（缓存前缀）参数用以区分不同的应用，以免混淆。</p>
+    <h2 id="%E7%BC%93%E5%AD%98%E8%AE%BE%E7%BD%AE">缓存设置</h2>
+    <pre>
+      <code>// 设置缓存
+S('name',$value);</code>
+    </pre>
+    <p>会按照缓存初始化时候的参数进行缓存数据，也可以在缓存设置的时候改变参数，例如：</p>
+    <pre>
+      <code>// 缓存数据300秒
+S('name',$value,300);</code>
+    </pre>
+    <p>甚至改变之前的缓存方式或者更多的参数：</p>
+    <pre>
+      <code>// 采用文件方式缓存数据300秒
+S('name',$value,array('type'=&gt;'file','expire'=&gt;300));</code>
+    </pre>
+    <p>如果你在缓存设置的时候采用上面的数组方式传入参数的话，会影响到后面的缓存存取。</p>
+    <h2 id="%E7%BC%93%E5%AD%98%E8%AF%BB%E5%8F%96">缓存读取</h2>
+    <pre>
+      <code>// 读取缓存
+$value = S('name');</code>
+    </pre>
+    <p>缓存读取的是前面缓存设置的值，这个值会受缓存初始化或者缓存设置的时候传入的参数影响。 如果缓存标识不存在或者已经过期，则返回false，否则返回缓存值。</p>
+    <h2 id="%E7%BC%93%E5%AD%98%E5%88%A0%E9%99%A4">缓存删除</h2>
+    <pre>
+      <code>// 删除缓存
+S('name',null);</code>
+    </pre>
+    <p>删除缓存标识为name的缓存数据。</p>
+    <h2 id="%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%BC%93%E5%AD%98">对象方式操作缓存</h2>
+    <p>我们可以采用对象方式操作缓存，例如：</p>
+    <pre>
+      <code>// 初始化缓存
+$cache = S(array('type'=&gt;'xcache','prefix'=&gt;'think','expire'=&gt;600));
+$cache-&gt;name = 'value'; // 设置缓存
+$value = $cache-&gt;name; // 获取缓存
+unset($cache-&gt;name); // 删除缓存</code>
+    </pre>
+    <blockquote class="">
+      <p>如果你设置了缓存前缀的话，对应的缓存操作只是对应该缓存前缀标识的，不会影响其他的缓存。</p>
+    </blockquote>
+    <h2 id="%E5%85%B3%E4%BA%8E%E6%96%87%E4%BB%B6%E7%BC%93%E5%AD%98%E6%96%B9%E5%BC%8F%E7%9A%84%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6">关于文件缓存方式的安全机制</h2>
+    <p>如果你使用的是文件方式的缓存机制，那么可以设置DATA_CACHE_KEY参数，避免缓存文件名被猜测到，例如：</p>
+    <pre>
+      <code>'DATA_CACHE_KEY'=&gt;'think'</code>
+    </pre>
+    <h2 id="%E7%BC%93%E5%AD%98%E9%98%9F%E5%88%97">缓存队列</h2>
+    <p>数据缓存可以支持缓存队列，简单的说就是可以限制缓存的数量，只需要在初始化的时候指定<code>length</code>参数：</p>
+    <pre>
+      <code>S(array('type'=&gt;'xcache','length'=&gt;100,'expire'=&gt;60));</code>
+    </pre>
+    <p>设置了<code>length</code>参数后，系统只会缓存最近的100条缓存数据。</p>
+  </body>
+</html>

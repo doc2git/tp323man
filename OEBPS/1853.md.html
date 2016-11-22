@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>缓存驱动默认位于<code>Think\Cache\Driver</code>命名空间下面,目前已经提供了包括APC、Db、Memcache、Shmop、Sqlite、Redis、Eaccelerator和Xcache缓存方式的驱动扩展，缓存驱动必须继承Think\Cache类，并实现下面的驱动接口：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>方法说明</th>
+          <th>接口方法</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>架构方法</td>
+          <td>__construct($options='')</td>
+        </tr>
+        <tr>
+          <td>读取缓存</td>
+          <td>get($name)</td>
+        </tr>
+        <tr>
+          <td>写入缓存</td>
+          <td>set($name,$value,$expire=null)</td>
+        </tr>
+        <tr>
+          <td>删除缓存</td>
+          <td>rm($name)</td>
+        </tr>
+        <tr>
+          <td>清空缓存</td>
+          <td>clear()</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>下面是一个典型的缓存驱动类定义：</p>
+    <pre>
+      <code>namespace Think\Cache\Driver;
+use Think\Cache;
+/**
+ * Test缓存驱动
+ */
+class Test extends Cache {
+    /**
+     * 读取缓存
+     * @access public
+     * @param string $name 缓存变量名
+     * @return mixed
+     */
+     public function get($name) {
+        // 获取名称为name的缓存
+     }
+    /**
+     * 写入缓存
+     * @access public
+     * @param string $name 缓存变量名
+     * @param mixed $value  存储数据
+     * @param integer $expire  有效时间（秒）
+     * @return boolean
+     */
+     public function set($name, $value, $expire = null) {
+        // 设置缓存
+     }
+    /**
+     * 删除缓存
+     * @access public
+     * @param string $name 缓存变量名
+     * @return boolean
+     */
+     public function rm($name) {
+        // 删除名称为name的缓存
+     }
+
+    /**
+     * 清除缓存
+     * @access public
+     * @return boolean
+     */
+    public function clear() {
+        // 清空缓存
+    }
+}</code>
+    </pre>
+    <blockquote class="">
+      <p>注意：缓存驱动的有效期参数约定，如果设置为0 则表示永久缓存。</p>
+    </blockquote>
+    <p>如果要让缓存驱动支持缓存队列功能，需要在缓存接口的set操作方法设置成功后添加如下代码：</p>
+    <pre>
+      <code>if($this-&gt;options['length']&gt;0) {
+       // 记录缓存队列
+       $this-&gt;queue($name);
+ }</code>
+    </pre>
+    <p>要配置当前默认的缓存驱动类型可以使用<strong>CACHE_TYPE</strong>参数，例如：</p>
+    <pre>
+      <code>'CACHE_TYPE'=&gt;'test'</code>
+    </pre>
+  </body>
+</html>

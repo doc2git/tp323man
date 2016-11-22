@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>我们往往需要对模板输出变量使用函数，可以使用：</p>
+    <pre>
+      <code>{$data.name|md5} </code>
+    </pre>
+    <p>编译后的结果是：</p>
+    <pre>
+      <code>&lt;?php echo (md5($data['name'])); ?&gt;</code>
+    </pre>
+    <p>如果函数有多个参数需要调用，则使用：</p>
+    <pre>
+      <code>{$create_time|date="y-m-d",###}</code>
+    </pre>
+    <p>表示date函数传入两个参数，每个参数用逗号分割，这里第一个参数是<code>y-m-d</code>，第二个参数是前面要输出的<code>create_time</code>变量，因为该变量是第二个参数，因此需要用###标识变量位置，编译后的结果是：</p>
+    <pre>
+      <code>&lt;?php echo (date("y-m-d",$create_time)); ?&gt;</code>
+    </pre>
+    <p>如果前面输出的变量在后面定义的函数的第一个参数，则可以直接使用：</p>
+    <pre>
+      <code>{$data.name|substr=0,3}</code>
+    </pre>
+    <p>表示输出</p>
+    <pre>
+      <code>&lt;?php echo (substr($data['name'],0,3)); ?&gt;</code>
+    </pre>
+    <p>虽然也可以使用：</p>
+    <pre>
+      <code>{$data.name|substr=###,0,3}</code>
+    </pre>
+    <p>但完全没用这个必要。</p>
+    <p>还可以支持多个函数过滤，多个函数之间用“|”分割即可，例如：</p>
+    <pre>
+      <code>{$name|md5|strtoupper|substr=0,3}</code>
+    </pre>
+    <p>编译后的结果是：</p>
+    <pre>
+      <code>&lt;?php echo (substr(strtoupper(md5($name)),0,3)); ?&gt;</code>
+    </pre>
+    <p>函数会按照从左到右的顺序依次调用。</p>
+    <p>如果你觉得这样写起来比较麻烦，也可以直接这样写：</p>
+    <pre>
+      <code>{:substr(strtoupper(md5($name)),0,3)}</code>
+    </pre>
+    <blockquote class="">
+      <p>变量输出使用的函数可以支持内置的PHP函数或者用户自定义函数，甚至是静态方法。</p>
+    </blockquote>
+  </body>
+</html>

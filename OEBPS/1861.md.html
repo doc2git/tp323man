@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <h3 id="%E6%A0%87%E7%AD%BE%E5%BA%93%E5%8A%A0%E8%BD%BD">标签库加载</h3>
+    <p>模板中加载标签库，预加载自定义标签库，扩展内置标签库的加载 请参考：<a href="http://document.thinkphp.cn/manual_3_2.html#taglib"/><a href="http://document.thinkphp.cn/manual_3_2.html#taglib">http://document.thinkphp.cn/manual_3_2.html#taglib</a></p>
+    <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%BA%93%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">自定义标签库开发注意事项</h3>
+    <ul>
+      <li>标签库请放置 ThinkPHP\Library\Think\Template\TagLib 目录下，若需要存放在指定位置，请在加载标签库配置时使用命名空间，如</li>
+    </ul>
+    <pre>
+      <code>&lt;taglib name="Home\\TagLib\\MyTag"/&gt;</code>
+    </pre>
+    <ul>
+      <li>标签库类请使用命名空间，否则无法加载类，主要是在类开头包含如下代码：</li>
+    </ul>
+    <pre>
+      <code>&lt;?php    
+    namespace Think\Template\TagLib;
+    use Think\Template\TagLib;
+    defined('THINK_PATH') or exit();</code>
+    </pre>
+    <p>自定义标签库位置的话，请自行修改第一行 namespace 的定义。</p>
+    <h3 id="%E5%85%B3%E4%BA%8E%E6%A0%87%E7%AD%BE%E5%BA%93%E5%BC%80%E5%8F%91">关于标签库开发</h3>
+    <p>暂时可以参考3.0的官方教程中关于标签库扩展的部分，建议自己分析内置标签库Cx。</p>
+  </body>
+</html>

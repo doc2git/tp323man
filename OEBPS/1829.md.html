@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>页面Trace只能用于有页面输出的情况，但是trace方法可以用在任何情况，而且trace方法可以用于AJAX等操作。</p>
+    <p>Trace方法的格式：</p>
+    <pre>
+      <code>trace('变量','标签','级别','是否记录日志')</code>
+    </pre>
+    <p>例如：</p>
+    <pre>
+      <code>$info = '测试信息';
+trace($info,'提示');</code>
+    </pre>
+    <p>如果希望把变量调试输出到页面Trace的某个选项卡里面，可以使用：</p>
+    <pre>
+      <code>trace($info,'提示','user');</code>
+    </pre>
+    <p>表示输出到user选项卡，如果没有指定选项卡的话，默认会输出到debug选项卡。 trace方法也可以直接抛出异常，如果是输出到ERR选项卡，并且开启 <code>'TRACE_EXCEPTION'=&gt;true</code></p>
+    <p>的话，</p>
+    <pre>
+      <code>trace($info,'错误','ERR');</code>
+    </pre>
+    <p>会抛出异常。 有三种情况下，trace方法会记录日志：</p>
+    <ol>
+      <li>AJAX请求</li>
+      <li>SHOW_PAGE_TRACE为false，也就是页面Trace关闭的情况下</li>
+      <li>trace方法的第四个参数为true</li>
+    </ol>
+    <p>在这种情况下，trace方法的第三个参数就表示记录的日志级别，通常包括：</p>
+    <pre>
+      <code>'ERR'  // 一般错误: 一般性错误
+'WARN'  // 警告性错误: 需要发出警告的错误
+'NOTIC'  // 通知: 程序可以运行但是还不够完美的错误
+'INFO'  // 信息: 程序输出信息
+'DEBUG'  // 调试: 调试信息
+'SQL'  // SQL：SQL语句</code>
+    </pre>
+    <h2 id="%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95">断点调试</h2>
+    <p>凭借强大的页面Trace信息功能支持，ThinkPHP可以支持断点调试功能。 我们只需要在不同的位置对某个变量进行trace输出即可，例如：</p>
+    <pre>
+      <code> $blog = D("Blog");
+ $vo = $blog-&gt;create();
+ trace($vo,'create vo');
+ $vo = $blog-&gt;find();
+ trace($vo,'find vo');</code>
+    </pre>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>在当前模版文件中包含其他的模版文件使用include标签，标签用法：</p>
+    <pre>
+      <code>&lt;include file='模版表达式或者模版文件1,模版表达式或者模版文件2,...' /&gt;</code>
+    </pre>
+    <h2 id="%E4%BD%BF%E7%94%A8%E6%A8%A1%E7%89%88%E8%A1%A8%E8%BE%BE%E5%BC%8F">使用模版表达式</h2>
+    <p>模版表达式的定义规则为：<strong>模块@主题/控制器/操作</strong></p>
+    <p>例如：</p>
+    <pre>
+      <code>&lt;include file="Public/header" /&gt; // 包含头部模版header
+&lt;include file="Public/menu" /&gt; // 包含菜单模版menu
+&lt;include file="Blue/Public/menu" /&gt; // 包含blue主题下面的menu模版</code>
+    </pre>
+    <p>可以一次包含多个模版，例如：</p>
+    <pre>
+      <code>&lt;include file="Public/header,Public/menu" /&gt;</code>
+    </pre>
+    <blockquote class="">
+      <p>注意，包含模版文件并不会自动调用控制器的方法，也就是说包含的其他模版文件中的变量赋值需要在当前操作中完成。</p>
+    </blockquote>
+    <h2 id="%E4%BD%BF%E7%94%A8%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6">使用模版文件</h2>
+    <p>可以直接包含一个模版文件名（包含完整路径），例如：</p>
+    <pre>
+      <code>&lt;include file="./Application/Home/View/default/Public/header.html" /&gt;</code>
+    </pre>
+    <h2 id="%E4%BC%A0%E5%85%A5%E5%8F%82%E6%95%B0">传入参数</h2>
+    <p>无论你使用什么方式包含外部模板，Include标签支持在包含文件的同时传入参数，例如，下面的例子我们在包含header模板的时候传入了title和keywords变量：</p>
+    <pre>
+      <code>&lt;include file="Public/header" title="ThinkPHP框架" keywords="开源WEB开发框架" /&gt;</code>
+    </pre>
+    <p>就可以在包含的header.html文件里面使用title和keywords变量，如下：</p>
+    <pre>
+      <code>&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+&lt;title&gt;[title]&lt;/title&gt;
+&lt;meta name="keywords" content="[keywords]" /&gt;
+&lt;/head&gt;</code>
+    </pre>
+    <blockquote class="">
+      <p>注意：由于模板解析的特点，从入口模板开始解析，如果外部模板有所更改，模板引擎并不会重新编译模板，除非在调试模式下或者缓存已经过期。如果部署模式下修改了包含的外部模板文件后，需要把模块的缓存目录清空，否则无法生效。</p>
+    </blockquote>
+  </body>
+</html>

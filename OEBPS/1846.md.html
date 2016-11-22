@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>因为模板文件中可能会泄露数据表的字段信息，有两种方法可以保护你的模板文件不被访问到：</p>
+    <p>第一种方式是配置.htaccess文件，针对Apache服务器而言。</p>
+    <p>把以下代码保存在模块的模板目录（默认是View）下保存存为.htaccess。</p>
+    <pre>
+      <code>&lt;Files *.html&gt;
+Order Allow,Deny 
+Deny from all
+ &lt;/Files&gt;</code>
+    </pre>
+    <p>如果你的模板文件后缀不是html可以将*.html改成你的模板文件的后缀。</p>
+    <p>第二种方式是针对独立的服务器，不适合虚拟主机用户。 把项目目录部署到网站WEB目录之外，这样，整个项目目录都不能直接访问，当然模板文件也保护起来了。</p>
+  </body>
+</html>

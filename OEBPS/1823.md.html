@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>在进行模板渲染之前，系统还会对读取的模板内容进行一些特殊字符串替换操作，也就是实现了模板输出的替换和过滤。该替换操作仅针对内置的模版引擎。</p>
+    <p>这个机制可以使得模板文件的定义更加方便，默认的替换规则有：</p>
+    <pre>
+      <code>__ROOT__： 会替换成当前网站的地址（不含域名） 
+__APP__： 会替换成当前应用的URL地址 （不含域名）
+__MODULE__：会替换成当前模块的URL地址 （不含域名）
+__CONTROLLER__（__或者__URL__ 兼容考虑）： 会替换成当前控制器的URL地址（不含域名）
+__ACTION__：会替换成当前操作的URL地址 （不含域名）
+__SELF__： 会替换成当前的页面URL
+__PUBLIC__：会被替换成当前网站的公共目录 通常是 /Public/</code>
+    </pre>
+    <blockquote class="">
+      <p>默认情况下，模板替换只会替换模板文件的特殊字符串，不会替换动态数据中的输出的内容。</p>
+    </blockquote>
+    <p>注意这些特殊的字符串是严格区别大小写的，并且这些特殊字符串的替换规则是可以更改或者增加的，我们只需要在应用或者模块的配置文件中配置TMPL_PARSE_STRING就可以完成。如果有相同的数组索引，就会更改系统的默认规则。例如：</p>
+    <pre>
+      <code>'TMPL_PARSE_STRING'  =&gt;array(
+     '__PUBLIC__' =&gt; '/Common', // 更改默认的/Public 替换规则
+     '__JS__'     =&gt; '/Public/JS/', // 增加新的JS类库路径替换规则
+     '__UPLOAD__' =&gt; '/Uploads', // 增加新的上传路径替换规则
+)</code>
+    </pre>
+    <p>有了模板替换规则后，模板中的所有<code>__PUBLIC__</code>字符串都会被替换，那如果确实需要输出<code>__PUBLIC__</code>字符串到模板呢，我们可以通过增加替换规则的方式，例如：</p>
+    <pre>
+      <code>'TMPL_PARSE_STRING'  =&gt;array(
+     '--PUBLIC--' =&gt; '__PUBLIC__', // 采用新规则输出`__PUBLIC__`字符串
+)</code>
+    </pre>
+    <p>这样增加替换规则后，如果我们要在模板中使用<code>__PUBLIC__</code>字符串，只需要在模板中添加--PUBLIC--，其他替换字符串的输出方式类似。</p>
+  </body>
+</html>

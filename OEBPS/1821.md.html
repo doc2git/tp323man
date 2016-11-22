@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>模板支持注释功能，该注释文字在最终页面不会显示，仅供模板制作人员参考和识别。</p>
+    <h2 id="%E5%8D%95%E8%A1%8C%E6%B3%A8%E9%87%8A">单行注释</h2>
+    <p>格式：</p>
+    <pre>
+      <code>{/* 注释内容 */ } 或 {// 注释内容 } </code>
+    </pre>
+    <p>例如：</p>
+    <pre>
+      <code>{// 这是模板注释内容 }</code>
+    </pre>
+    <blockquote class="">
+      <p>注意{和注释标记之间不能有空格。</p>
+    </blockquote>
+    <h2 id="%E5%A4%9A%E8%A1%8C%E6%B3%A8%E9%87%8A">多行注释</h2>
+    <p>支持多行注释，例如：</p>
+    <pre>
+      <code>{/* 这是模板
+注释内容*/ }</code>
+    </pre>
+    <p>模板注释支持多行，模板注释在生成编译缓存文件后会自动删除，这一点和Html的注释不同。</p>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>DEFINE标签用于中模板中定义常量，用法如下：</p>
+    <pre>
+      <code>&lt;define name="MY_DEFINE_NAME" value="3" /&gt;</code>
+    </pre>
+    <p>在运行模板的时候，就会定义一个<code>MY_DEFINE_NAME</code>的常量。</p>
+    <p>value属性可以支持变量（包括系统变量），例如：</p>
+    <pre>
+      <code>&lt;define name="MY_DEFINE_NAME" value="$name" /&gt;</code>
+    </pre>
+    <p>或者</p>
+    <pre>
+      <code>&lt;define name="MY_DEFINE_NAME" value="$Think.get.name" /&gt;</code>
+    </pre>
+  </body>
+</html>

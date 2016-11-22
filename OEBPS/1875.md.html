@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>通常在数据查询后都会对数据集进行分页操作，ThinkPHP也提供了分页类来对数据分页提供支持。 下面是数据分页的两种示例。</p>
+    <h3 id="%E5%88%A9%E7%94%A8page%E7%B1%BB%E5%92%8Climit%E6%96%B9%E6%B3%95%E5%88%86%E9%A1%B5">利用Page类和limit方法分页</h3>
+    <pre>
+      <code>$User = M('User'); // 实例化User对象
+$count      = $User-&gt;where('status=1')-&gt;count();// 查询满足要求的总记录数
+$Page       = new \Think\Page($count,25);// 实例化分页类 传入总记录数和每页显示的记录数(25)
+$show       = $Page-&gt;show();// 分页显示输出
+// 进行分页数据查询 注意limit方法的参数要使用Page类的属性
+$list = $User-&gt;where('status=1')-&gt;order('create_time')-&gt;limit($Page-&gt;firstRow.','.$Page-&gt;listRows)-&gt;select();
+$this-&gt;assign('list',$list);// 赋值数据集
+$this-&gt;assign('page',$show);// 赋值分页输出
+$this-&gt;display(); // 输出模板</code>
+    </pre>
+    <h3 id="%E5%88%86%E9%A1%B5%E7%B1%BB%E5%92%8Cpage%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5">分页类和page方法的实现分页</h3>
+    <pre>
+      <code>$User = M('User'); // 实例化User对象
+// 进行分页数据查询 注意page方法的参数的前面部分是当前的页数使用 $_GET[p]获取
+$list = $User-&gt;where('status=1')-&gt;order('create_time')-&gt;page($_GET['p'].',25')-&gt;select();
+$this-&gt;assign('list',$list);// 赋值数据集
+$count      = $User-&gt;where('status=1')-&gt;count();// 查询满足要求的总记录数
+$Page       = new \Think\Page($count,25);// 实例化分页类 传入总记录数和每页显示的记录数
+$show       = $Page-&gt;show();// 分页显示输出
+$this-&gt;assign('page',$show);// 赋值分页输出
+$this-&gt;display(); // 输出模板</code>
+    </pre>
+    <h3 id="%E5%B8%A6%E5%85%A5%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6">带入查询条件</h3>
+    <p>如果是POST方式查询，如何确保分页之后能够保持原先的查询条件呢，我们可以给分页类传入参数，方法是给分页类的parameter属性赋值</p>
+    <pre>
+      <code>$count      = $User-&gt;where($map)-&gt;count();// 查询满足要求的总记录数
+$Page       = new \Think\Page($count,25);// 实例化分页类 传入总记录数和每页显示的记录数
+//分页跳转的时候保证查询条件
+foreach($map as $key=&gt;$val) {
+    $Page-&gt;parameter[$key]   =   urlencode($val);
+}
+$show       = $Page-&gt;show();// 分页显示输出</code>
+    </pre>
+    <h3 id="%E5%88%86%E9%A1%B5%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6">分页样式定制</h3>
+    <p>我们可以对输出的分页样式进行定制，分页类Page提供了一个setConfig方法来修改默认的一些设置。例如：</p>
+    <pre>
+      <code>$Page-&gt;setConfig('header','个会员');</code>
+    </pre>
+    <table>
+      <thead>
+        <tr>
+          <th>setConfig方法支持的属性包括：</th>
+          <th>属性</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>header</td>
+          <td>头部描述信息，默认值 “共 %TOTAL_ROW% 条记录”</td>
+        </tr>
+        <tr>
+          <td>prev</td>
+          <td>上一页描述信息，默认值 “&lt;&lt;”</td>
+        </tr>
+        <tr>
+          <td>next</td>
+          <td>下一页描述信息，默认值 “&gt;&gt;”</td>
+        </tr>
+        <tr>
+          <td>first</td>
+          <td>第一页描述信息，默认值 “1...”</td>
+        </tr>
+        <tr>
+          <td>last</td>
+          <td>最后一页描述信息，默认值 “...%TOTAL_PAGE%”</td>
+        </tr>
+        <tr>
+          <td>theme</td>
+          <td>分页主题描述信息，包括了上面所有元素的组合 ，设置该属性可以改变分页的各个单元的显示位置，默认值是 "%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%"</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>其中，显示位置的对应的关系为：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>位置</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>%FIRST%</td>
+          <td>表示第一页的链接显示</td>
+        </tr>
+        <tr>
+          <td>%UP_PAGE%</td>
+          <td>表示上一页的链接显示</td>
+        </tr>
+        <tr>
+          <td>%LINK_PAGE%</td>
+          <td>表示分页的链接显示</td>
+        </tr>
+        <tr>
+          <td>%DOWN_PAGE%</td>
+          <td>表示下一页的链接显示</td>
+        </tr>
+        <tr>
+          <td>%END%</td>
+          <td>表示最后一页的链接显示</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>除了改变显示信息外，你还可以使用样式来定义分页的显示效果。 这些样式class包括：first（第一页）、prev（上一页）、next（下一页）、end（最后一页）、num（其他页的数字）、current（当前页）。</p>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>模板引擎驱动完成了第三方模板引擎的支持，通过定义模板引擎驱动，我们可以支持Smarty、TemplateLite、SmartTemplate和EaseTemplate等第三方模板引擎。</p>
+    <p>默认的模板引擎驱动的命名空间位于 <code>Think\Template\Driver</code>，需要实现的接口方法只有一个 fetch($templateFile,$var) 用于渲染模板文件并输出。</p>
+    <p>下面是一个Smarty模板引擎扩展的示例：</p>
+    <pre>
+      <code>namespace Think\Template\Driver;
+class Smarty {
+
+    /**
+     * 渲染模板输出
+     * @access public
+     * @param string $templateFile 模板文件名
+     * @param array $var 模板变量
+     * @return void
+     */
+    public function fetch($templateFile,$var) {
+        $templateFile   =   substr($templateFile,strlen(THEME_PATH));
+        vendor('Smarty.Smarty#class');
+        $tpl            =   new \Smarty();
+        $tpl-&gt;caching       = C('TMPL_CACHE_ON');
+        $tpl-&gt;template_dir  = THEME_PATH;
+        $tpl-&gt;compile_dir   = CACHE_PATH ;
+        $tpl-&gt;cache_dir     = TEMP_PATH ;        
+        if(C('TMPL_ENGINE_CONFIG')) {
+            $config  =  C('TMPL_ENGINE_CONFIG');
+            foreach ($config as $key=&gt;$val){
+                $tpl-&gt;{$key}   =  $val;
+            }
+        }
+        $tpl-&gt;assign($var);
+        $tpl-&gt;display($templateFile);
+    }
+}</code>
+    </pre>
+    <p>如果要使用Smarty模板引擎的话，只需要配置</p>
+    <pre>
+      <code>'TMPL_ENGINE_TYPE'=&gt;'Smarty',
+'TMPL_ENGINE_CONFIG'=&gt;array(
+    'plugins_dir'=&gt;'./Application/Smarty/Plugins/',
+),</code>
+    </pre>
+  </body>
+</html>

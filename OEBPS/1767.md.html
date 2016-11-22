@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ThinkPHP可以支持直接使用字符串作为查询条件，但是大多数情况推荐使用数组或者对象来作为查询条件，因为会更加安全。</p>
+    <h2 id="%E4%BD%BF%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BD%9C%E4%B8%BA%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6">使用字符串作为查询条件</h2>
+    <p>这是最传统的方式，但是安全性不高，例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$User-&gt;where('type=1 AND status=1')-&gt;select(); </code>
+    </pre>
+    <p>最后生成的SQL语句是</p>
+    <pre>
+      <code>SELECT * FROM think_user WHERE type=1 AND status=1</code>
+    </pre>
+    <blockquote class="">
+      <p>采用字符串查询的时候，我们可以配合使用字符串条件的安全预处理机制。</p>
+    </blockquote>
+    <h2 id="%E4%BD%BF%E7%94%A8%E6%95%B0%E7%BB%84%E4%BD%9C%E4%B8%BA%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6">使用数组作为查询条件</h2>
+    <p>这种方式是最常用的查询方式，例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$condition['name'] = 'thinkphp';
+$condition['status'] = 1;
+// 把查询条件传入查询方法
+$User-&gt;where($condition)-&gt;select(); </code>
+    </pre>
+    <p>最后生成的SQL语句是</p>
+    <pre>
+      <code>SELECT * FROM think_user WHERE `name`='thinkphp' AND status=1</code>
+    </pre>
+    <p>如果进行多字段查询，那么字段之间的默认逻辑关系是 逻辑与 AND，但是用下面的规则可以更改默认的逻辑判断，通过使用 _logic 定义查询逻辑：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$condition['name'] = 'thinkphp';
+$condition['account'] = 'thinkphp';
+$condition['_logic'] = 'OR';
+// 把查询条件传入查询方法
+$User-&gt;where($condition)-&gt;select(); </code>
+    </pre>
+    <p>最后生成的SQL语句是</p>
+    <pre>
+      <code>SELECT * FROM think_user WHERE `name`='thinkphp' OR `account`='thinkphp'</code>
+    </pre>
+    <h2 id="%E4%BD%BF%E7%94%A8%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E6%9D%A5%E6%9F%A5%E8%AF%A2">使用对象方式来查询</h2>
+    <p>这里以stdClass内置对象为例：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+// 定义查询条件
+$condition = new stdClass(); 
+$condition-&gt;name = 'thinkphp'; 
+$condition-&gt;status= 1; 
+$User-&gt;where($condition)-&gt;select(); </code>
+    </pre>
+    <p>最后生成的SQL语句和上面一样</p>
+    <pre>
+      <code>SELECT * FROM think_user WHERE `name`='thinkphp' AND status=1</code>
+    </pre>
+    <p>使用对象方式查询和使用数组查询的效果是相同的，并且是可以互换的，大多数情况下，我们建议采用数组方式更加高效。</p>
+    <p>在<strong>使用数组和对象方式查询</strong>的时候，如果传入了不存在的查询字段是会被自动过滤的，例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$condition['name'] = 'thinkphp';
+$condition['status'] = 1;
+$condition['test'] = 'test';
+// 把查询条件传入查询方法
+$User-&gt;where($condition)-&gt;select(); </code>
+    </pre>
+    <p>因为数据库的test字段是不存在的，所以系统会自动检测并过滤掉<code>$condition['test'] = 'test'</code>这一查询条件。</p>
+    <blockquote class="">
+      <p>如果是3.2.2版本以上，当开启调试模式的话，则会抛出异常，显示：<code>错误的查询条件</code>。</p>
+    </blockquote>
+  </body>
+</html>

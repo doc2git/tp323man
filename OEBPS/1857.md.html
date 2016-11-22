@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>存储驱动完成了不同环境下面的文件存取操作，也是ThinkPHP支持分布式和云平台的基础。</p>
+    <p>默认的存储驱命名空间位于<code>Think\Storage\Driver</code>,每个存储驱动必须继承Think\Storage，并且实现下列接口方法（具体参数可以参考现有的存储驱动类库）： </p>
+    <table>
+      <thead>
+        <tr>
+          <th>驱动方法</th>
+          <th>方法说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>架构方法</td>
+          <td>__construct($config='')</td>
+        </tr>
+        <tr>
+          <td>读取文件内容</td>
+          <td>read($filename,$type='')</td>
+        </tr>
+        <tr>
+          <td>写文件</td>
+          <td>put($filename,$content,$type='')</td>
+        </tr>
+        <tr>
+          <td>文件追加</td>
+          <td>append($filename,$content,$type='')</td>
+        </tr>
+        <tr>
+          <td>加载文件</td>
+          <td>load($filename,$vars=null,$type='')</td>
+        </tr>
+        <tr>
+          <td>判断文件是否存在</td>
+          <td>has($filename,$type='')</td>
+        </tr>
+        <tr>
+          <td>删除文件</td>
+          <td>unlink($filename,$type='')</td>
+        </tr>
+        <tr>
+          <td>读取文件信息</td>
+          <td>get($filename,$name,$type='')</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>其中type参数是为了区分不同的读写场景而设置的。</p>
+    <p>目前使用到的场景包括 runtime（用于编译缓存的文件操作）、html（用于静态缓存的文件操作）和F（用于F函数的文件操作）。</p>
+    <p>要使用自己定义的存储驱动的话，需要在应用入口文件定义：</p>
+    <pre>
+      <code>define('STORAGE_TYPE',  'MyStorage');</code>
+    </pre>
+    <blockquote class="">
+      <p>存储类型的特殊性决定了我们只能在入口文件中改变存储类型</p>
+    </blockquote>
+  </body>
+</html>

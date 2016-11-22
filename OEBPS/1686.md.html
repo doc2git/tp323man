@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>我们可以在自动生成的Application/Home/Controller目录下面找到一个 <code>IndexController.class.php</code> 文件，这就是默认的Index控制器文件。</p>
+    <p>控制器类的命名方式是：<strong>控制器名（驼峰法，首字母大写）+Controller</strong></p>
+    <p>控制器文件的命名方式是：<strong>类名+class.php（类文件后缀）</strong></p>
+    <p>默认的欢迎页面其实就是访问的Home模块下面的Index控制器类的index操作方法 我们修改默认的index操作方法如下：</p>
+    <pre>
+      <code>namespace Home\Controller;
+use Think\Controller;
+class IndexController extends Controller {
+    public function index(){
+        echo 'hello,world!';
+    }
+}</code>
+    </pre>
+    <p>再次运行应用入口文件，浏览器会显示：<code>hello,world!</code>。</p>
+    <p>我们再来看下控制器类，IndexController控制器类的开头是命名空间定义：</p>
+    <pre>
+      <code>namespace Home\Controller;</code>
+    </pre>
+    <p>这是系统的规范要求，表示当前类是Home模块下的控制器类，命名空间和实际的控制器文件所在的路径是一致的，也就是说： <code>Home\Controller\IndexController</code>类 对应的控制器文件位于应用目录下面的 <code>Home/Controller/IndexController.class.php</code>，如果你改变了当前的模块名，那么这个控制器类的命名空间也需要随之修改。</p>
+    <blockquote class="">
+      <p>注意：命名空间定义必须写在所有的PHP代码之前声明，而且之前不能有任何输出，否则会出错</p>
+    </blockquote>
+    <pre>
+      <code>use Think\Controller;</code>
+    </pre>
+    <p>表示引入 Think\Controller 类库便于直接使用。 所以，</p>
+    <pre>
+      <code>namespace Home\Controller;
+use Think\Controller;
+class IndexController extends Controller</code>
+    </pre>
+    <p>等同于使用：</p>
+    <pre>
+      <code>namespace Home\Controller;
+class IndexController extends \Think\Controller</code>
+    </pre>
+  </body>
+</html>

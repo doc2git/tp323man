@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>之前的方式都是通过预先定义配置文件的方式，而在具体的操作方法里面，我们仍然可以对某些参数进行动态配置（或者增加新的配置），主要是指那些还没有被使用的参数。</p>
+    <p>设置格式：</p>
+    <h4 id="c%28%27%E5%8F%82%E6%95%B0%E5%90%8D%E7%A7%B0%27%2C%27%E6%96%B0%E7%9A%84%E5%8F%82%E6%95%B0%E5%80%BC%27%29">C('参数名称','新的参数值')</h4>
+    <p>例如，我们需要动态改变数据缓存的有效期的话，可以使用</p>
+    <pre>
+      <code>// 动态改变缓存有效期
+C('DATA_CACHE_TIME',60);</code>
+    </pre>
+    <blockquote class="">
+      <p>动态配置赋值仅对当前请求有效，不会对以后的请求造成影响。</p>
+    </blockquote>
+    <p>动态改变配置参数的方法和读取配置的方法在使用上面非常接近，都是使用C方法，只是参数的不同。 </p>
+    <p>也可以支持二维数组的读取和设置，使用点语法进行操作，如下：</p>
+    <pre>
+      <code>// 获取已经设置的参数值
+C('USER_CONFIG.USER_TYPE');
+// 设置新的值
+C('USER_CONFIG.USER_TYPE',1);</code>
+    </pre>
+  </body>
+</html>

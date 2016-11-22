@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>日志驱动默认的命名空间位于<code>Think\Log\Driver</code>,驱动类需要实现的接口方法包括：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>方法</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>架构方法</td>
+          <td>__construct($config=array())</td>
+        </tr>
+        <tr>
+          <td>写入方法</td>
+          <td>write($log,$destination='')</td>
+        </tr>
+      </tbody>
+    </table>
+    <blockquote class="">
+      <p>日志驱动只需要实现写入方法即可，log参数是日志信息字符串。</p>
+    </blockquote>
+  </body>
+</html>

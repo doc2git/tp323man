@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>内置的模板引擎除了支持普通变量的输出之外，更强大的地方在于标签库功能。</p>
+    <p>标签库类似于Java的Struts中的JSP标签库，每一个标签库是一个独立的标签库文件，标签库中的每一个标签完成某个功能，采用XML标签方式（包括开放标签和闭合标签）。</p>
+    <p>标签库分为内置和扩展标签库，内置标签库是Cx标签库。</p>
+    <h2 id="%E5%AF%BC%E5%85%A5%E6%A0%87%E7%AD%BE%E5%BA%93">导入标签库</h2>
+    <p>使用taglib标签导入当前模板中需要使用的标签库，例如：</p>
+    <pre>
+      <code>&lt;taglib name="html" /&gt;</code>
+    </pre>
+    <blockquote class="">
+      <p>如果没有定义html标签库的话，则导入无效。</p>
+    </blockquote>
+    <p>也可以导入多个标签库，使用：</p>
+    <pre>
+      <code>&lt;taglib name="html,article" /&gt;</code>
+    </pre>
+    <p>导入标签库后，就可以使用标签库中定义的标签了，假设article标签库中定义了read标签：</p>
+    <pre>
+      <code>&lt;article:read name="hello" id="data" &gt;
+{$data.id}:{$data.title}
+&lt;/article:read&gt;</code>
+    </pre>
+    <p>在上面的标签中，<code>&lt;article:read&gt;... &lt;/article:read&gt;</code> 就是闭合标签，起始和结束标签必须成对出现。</p>
+    <p>如果是 <code>&lt;article:read name="hello" /&gt;</code> 就是开放标签。</p>
+    <blockquote class="">
+      <p>闭合和开放标签取决于标签库中的定义，一旦定义后就不能混淆使用，否则就会出现错误。</p>
+    </blockquote>
+    <h2 id="%E5%86%85%E7%BD%AE%E6%A0%87%E7%AD%BE">内置标签</h2>
+    <p>内置标签库无需导入即可使用，并且不需要加XML中的标签库前缀，ThinkPHP内置的标签库是Cx标签库，所以，Cx标签库中的所有标签，我们可以在模板文件中直接使用，我们可以这样使用：</p>
+    <pre>
+      <code>&lt;eq name="status" value="1 &gt;
+正常
+&lt;/eq&gt;</code>
+    </pre>
+    <p>如果Cx不是内置标签的话，可能就需要这么使用了：</p>
+    <pre>
+      <code>&lt;cx:eq name="status" value="1 &gt;
+正常
+&lt;/cx:eq&gt;</code>
+    </pre>
+    <p>更多的Cx标签库中的标签用法，参考<a href="#">内置标签</a>。</p>
+    <p>内置标签库可以简化模板中标签的使用，所以，我们还可以把其他的标签库定义为内置标签库（前提是多个标签库没有标签冲突的情况），例如：</p>
+    <pre>
+      <code>'TAGLIB_BUILD_IN'    =&gt;    'cx,article'</code>
+    </pre>
+    <p>配置后，上面的标签用法就可以改为：</p>
+    <pre>
+      <code>&lt;read name="hello" id="data" &gt;
+{$data.id}:{$data.title}
+&lt;/read&gt;</code>
+    </pre>
+    <h2 id="%E6%A0%87%E7%AD%BE%E5%BA%93%E9%A2%84%E5%8A%A0%E8%BD%BD">标签库预加载</h2>
+    <p>标签库预加载是指无需手动在模板文件中导入标签库即可使用标签库中的标签，通常用于某个标签库需要被大多数模板使用的情况。</p>
+    <p>在应用或者模块的配置文件中添加：</p>
+    <pre>
+      <code>'TAGLIB_PRE_LOAD'    =&gt;    'article,html'</code>
+    </pre>
+    <p>设置后，模板文件就不再需要使用</p>
+    <pre>
+      <code>&lt;taglib name="html,article" /&gt;</code>
+    </pre>
+    <p>但是仍然可以在模板中调用：</p>
+    <pre>
+      <code>&lt;article:read name="hello" id="data" &gt;
+{$data.id}:{$data.title}
+&lt;/article:read&gt;</code>
+    </pre>
+  </body>
+</html>

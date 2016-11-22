@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ThinkPHP采用<strong>单一入口模式</strong>进行项目部署和访问，无论完成什么功能，一个应用都有一个统一（但不一定是唯一）的入口。</p>
+    <p>应该说，所有应用都是从入口文件开始的，并且不同应用的入口文件是类似的。</p>
+    <h2 id="%E5%85%A5%E5%8F%A3%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89">入口文件定义</h2>
+    <p>入口文件主要完成：</p>
+    <ul>
+      <li>定义框架路径、项目路径（可选）</li>
+      <li>定义调试模式和应用模式（可选）</li>
+      <li>定义系统相关常量（可选）</li>
+      <li>载入框架入口文件（必须）</li>
+    </ul>
+    <p>默认情况下，框架已经自带了一个应用入口文件（以及默认的目录结构），内容如下：</p>
+    <pre>
+      <code>define('APP_PATH','./Application/');
+require './ThinkPHP/ThinkPHP.php';</code>
+    </pre>
+    <p>如果你改变了项目目录（例如把<code>Application</code>更改为<code>Apps</code>），只需要在入口文件更改<strong>APP_PATH</strong>常量定义即可：</p>
+    <pre>
+      <code>define('APP_PATH','./Apps/');
+require './ThinkPHP/ThinkPHP.php';</code>
+    </pre>
+    <blockquote class="">
+      <p>注意：APP_PATH的定义支持相对路径和绝对路径，但必须以“/”结束</p>
+    </blockquote>
+    <p>如果你调整了框架核心目录的位置或者目录名，只需要这样修改：</p>
+    <pre>
+      <code>define('APP_PATH','./Application/');
+require './Think/ThinkPHP.php';</code>
+    </pre>
+    <p>也可以单独定义一个<strong>THINK_PATH</strong>常量用于引入：</p>
+    <pre>
+      <code>define('APP_PATH','./Application/');
+define('THINK_PATH',realpath('../Think').'/');
+require THINK_PATH.'ThinkPHP.php';</code>
+    </pre>
+    <blockquote class="">
+      <p>和APP_PATH一样THINK_PATH路径定义也必须以“/”结尾。<br/>
+给THINK_PATH和APP_PATH定义绝对路径会提高系统的加载效率。</p>
+    </blockquote>
+    <h2 id="%E5%85%A5%E5%8F%A3%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E5%85%B6%E4%BB%96%E5%AE%9A%E4%B9%89">入口文件中的其他定义</h2>
+    <p>一般不建议在入口文件中做过多的操作，但可以重新定义一些系统常量，入口文件中支持定义（建议）的一些系统常量包括：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>常量</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>THINK_PATH</td>
+          <td>框架目录</td>
+        </tr>
+        <tr>
+          <td>APP_PATH</td>
+          <td>应用目录</td>
+        </tr>
+        <tr>
+          <td>RUNTIME_PATH</td>
+          <td>应用运行时目录（可写）</td>
+        </tr>
+        <tr>
+          <td>APP_DEBUG</td>
+          <td>应用调试模式 （默认为false）</td>
+        </tr>
+        <tr>
+          <td>STORAGE_TYPE</td>
+          <td>存储类型（默认为File）</td>
+        </tr>
+        <tr>
+          <td>APP_MODE</td>
+          <td>应用模式（默认为common）</td>
+        </tr>
+      </tbody>
+    </table>
+    <blockquote class="">
+      <p>注意：所有路径常量都必须以“/”结尾</p>
+    </blockquote>
+    <p>例如，我们可以在入口文件中重新定义相关目录并且开启调试模式：</p>
+    <pre>
+      <code>// 定义应用目录
+define('APP_PATH','./Apps/');
+// 定义运行时目录
+define('RUNTIME_PATH','./Runtime/');
+// 开启调试模式
+define('APP_DEBUG',True);
+// 更名框架目录名称，并载入框架入口文件
+require './Think/ThinkPHP.php';</code>
+    </pre>
+    <p>这样最终的应用目录结构如下：</p>
+    <pre>
+      <code>www  WEB部署目录（或者子目录）
+├─index.php       应用入口文件
+├─Apps            应用目录
+├─Public          资源文件目录
+├─Runtime         运行时目录
+└─Think           框架目录</code>
+    </pre>
+    <blockquote class="">
+      <p>入口文件中还可以定义一些系统变量，用于相关的绑定操作（通常用于多个入口的情况），这个会在后面涉及，暂且不提。</p>
+    </blockquote>
+  </body>
+</html>

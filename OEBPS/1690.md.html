@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>在ThinkPHP中，一般来说应用的配置文件是自动加载的，加载的顺序是：</p>
+    <h4 id="%E6%83%AF%E4%BE%8B%E9%85%8D%E7%BD%AE-%3E%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE-%3E%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE-%3E%E8%B0%83%E8%AF%95%E9%85%8D%E7%BD%AE-%3E%E7%8A%B6%E6%80%81%E9%85%8D%E7%BD%AE-%3E%E6%A8%A1%E5%9D%97%E9%85%8D%E7%BD%AE-%3E%E6%89%A9%E5%B1%95%E9%85%8D%E7%BD%AE-%3E%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE">惯例配置-&gt;应用配置-&gt;模式配置-&gt;调试配置-&gt;状态配置-&gt;模块配置-&gt;扩展配置-&gt;动态配置</h4>
+    <blockquote class="">
+      <p>以上是配置文件的加载顺序，因为后面的配置会覆盖之前的同名配置（在没有生效的前提下），所以配置的优先顺序从右到左。</p>
+    </blockquote>
+    <p>下面说明下不同的配置文件的区别和位置：</p>
+    <h2 id="%E6%83%AF%E4%BE%8B%E9%85%8D%E7%BD%AE">惯例配置</h2>
+    <p>惯例重于配置是系统遵循的一个重要思想，框架内置有一个惯例配置文件（位于<code>ThinkPHP/Conf/convention.php</code>），按照大多数的使用对常用参数进行了默认配置。所以，对于应用的配置文件，往往只需要配置和惯例配置不同的或者新增的配置参数，如果你完全采用默认配置，甚至可以不需要定义任何配置文件。</p>
+    <blockquote class="">
+      <p>建议仔细阅读下系统的惯例配置文件中的相关配置参数，了解下系统默认的配置参数。</p>
+    </blockquote>
+    <h2 id="%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE">应用配置</h2>
+    <p>应用配置文件也就是调用所有模块之前都会首先加载的公共配置文件（默认位于<code>Application/Common/Conf/config.php</code>）。</p>
+    <blockquote class="">
+      <p>如果更改了公共模块的名称的话，公共配置文件的位置也相应改变</p>
+    </blockquote>
+    <h2 id="%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89">模式配置（可选）</h2>
+    <p>如果使用了普通应用模式之外的应用模式的话，还可以为应用模式（后面会有描述）单独定义配置文件，文件命名规范是： <code>Application/Common/Conf/config_应用模式名称.php</code>（仅在运行该模式下面才会加载）。</p>
+    <blockquote class="">
+      <p>模式配置文件是可选的</p>
+    </blockquote>
+    <h2 id="%E8%B0%83%E8%AF%95%E9%85%8D%E7%BD%AE%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89">调试配置（可选）</h2>
+    <p>如果开启调试模式的话，则会自动加载框架的调试配置文件（位于<code>ThinkPHP/Conf/debug.php</code>）和应用调试配置文件（位于<code>Application/Common/Conf/debug.php</code>）</p>
+    <h2 id="%E7%8A%B6%E6%80%81%E9%85%8D%E7%BD%AE%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89">状态配置（可选）</h2>
+    <p>每个应用都可以在不同的情况下设置自己的状态（或者称之为应用场景），并且加载不同的配置文件。</p>
+    <p>举个例子，你需要在公司和家里分别设置不同的数据库测试环境。那么可以这样处理，在公司环境中，我们在入口文件中定义：</p>
+    <pre>
+      <code>define('APP_STATUS','office');</code>
+    </pre>
+    <p>那么就会自动加载该状态对应的配置文件（位于<code>Application/Common/Conf/office.php</code>）。</p>
+    <p>如果我们回家后，我们修改定义为：</p>
+    <pre>
+      <code>define('APP_STATUS','home');</code>
+    </pre>
+    <p>那么就会自动加载该状态对应的配置文件（位于<code>Application/Common/Conf/home.php</code>）。</p>
+    <blockquote class="">
+      <p>状态配置文件是可选的</p>
+    </blockquote>
+    <h2 id="%E6%A8%A1%E5%9D%97%E9%85%8D%E7%BD%AE">模块配置</h2>
+    <p>每个模块会自动加载自己的配置文件（位于<code>Application/当前模块名/Conf/config.php</code>）。</p>
+    <p>如果使用了普通模式之外的其他应用模式，你还可以为应用模式单独定义配置文件，命名规范为： <code>Application/当前模块名/Conf/config_应用模式名称.php</code>（仅在运行该模式下面才会加载）。</p>
+    <p>模块还可以支持独立的状态配置文件，命名规范为： <code>Application/当前模块名/Conf/应用状态.php</code>。</p>
+    <p>如果你的应用的配置文件比较大，想分成几个单独的配置文件或者需要加载额外的配置文件的话，可以考虑采用扩展配置或者动态配置（参考后面的描述）。</p>
+  </body>
+</html>

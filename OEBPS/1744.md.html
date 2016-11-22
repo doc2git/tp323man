@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>HAVING方法也是连贯操作之一，用于配合group方法完成从分组的结果中筛选（通常是聚合条件）数据。</p>
+    <p>having方法只有一个参数，并且只能使用字符串，例如：</p>
+    <pre>
+      <code>$this-&gt;field('username,max(score)')-&gt;group('user_id')-&gt;having('count(test_time)&gt;3')-&gt;select(); </code>
+    </pre>
+    <p>生成的SQL语句是：</p>
+    <pre>
+      <code>SELECT username,max(score) FROM think_score GROUP BY user_id HAVING count(test_time)&gt;3</code>
+    </pre>
+  </body>
+</html>

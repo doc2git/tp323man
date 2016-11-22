@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>传统方式的导入外部JS和CSS文件的方法是直接在模板文件使用：</p>
+    <pre>
+      <code>&lt;script type='text/javascript' src='/Public/Js/Util/Array.js'&gt;
+&lt;link rel="stylesheet" type="text/css" href="/App/Tpl/default/Public/css/style.css" /&gt;</code>
+    </pre>
+    <p>系统提供了专门的标签来简化上面的导入：</p>
+    <p>第一个是import标签 ，导入方式采用类似ThinkPHP的import函数的命名空间方式，例如：</p>
+    <pre>
+      <code>&lt;import type='js' file="Js.Util.Array" /&gt;</code>
+    </pre>
+    <p>Type属性默认是js， 所以下面的效果是相同的：</p>
+    <pre>
+      <code>&lt;import file="Js.Util.Array" /&gt;</code>
+    </pre>
+    <p>还可以支持多个文件批量导入，例如：</p>
+    <pre>
+      <code>&lt;import file="Js.Util.Array,Js.Util.Date" /&gt;</code>
+    </pre>
+    <p>导入外部CSS文件必须指定type属性的值，例如：</p>
+    <pre>
+      <code>&lt;import type='css' file="Css.common" /&gt;</code>
+    </pre>
+    <p>上面的方式默认的import的起始路径是网站的Public目录，如果需要指定其他的目录，可以使用basepath属性，例如：</p>
+    <pre>
+      <code>&lt;import file="Js.Util.Array"  basepath="./Common" /&gt;</code>
+    </pre>
+    <p>第二个是load标签，通过文件方式导入当前项目的公共JS或者CSS</p>
+    <pre>
+      <code>&lt;load href="/Public/Js/Common.js" /&gt;
+&lt;load href="/Public/Css/common.css" /&gt;</code>
+    </pre>
+    <p>在href属性中可以使用特殊模板标签替换，例如：</p>
+    <pre>
+      <code>&lt;load href="__PUBLIC__/Js/Common.js" /&gt;</code>
+    </pre>
+    <blockquote class="">
+      <p>Load标签可以无需指定type属性，系统会自动根据后缀自动判断。</p>
+    </blockquote>
+    <p>系统还提供了两个标签别名js和css 用法和load一致，例如：</p>
+    <pre>
+      <code>&lt;js href="/Public/Js/Common.js" /&gt;
+&lt;css href="/Public/Css/common.css" /&gt;</code>
+    </pre>
+  </body>
+</html>

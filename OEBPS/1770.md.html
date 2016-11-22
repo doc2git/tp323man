@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ThinkPHP支持对某个字段的区间查询，例如：</p>
+    <pre>
+      <code>$map['id'] = array(array('gt',1),array('lt',10)) ;</code>
+    </pre>
+    <p>得到的查询条件是： <code>( id &gt; 1) AND ( id &lt; 10)</code></p>
+    <pre>
+      <code>$map['id'] = array(array('gt',3),array('lt',10), 'or') ;</code>
+    </pre>
+    <p>得到的查询条件是： <code>( id &gt; 3) OR ( id &lt; 10)</code></p>
+    <pre>
+      <code>$map['id']  = array(array('neq',6),array('gt',3),'and'); </code>
+    </pre>
+    <p>得到的查询条件是：<code>( id != 6) AND ( id &gt; 3)</code></p>
+    <blockquote class="">
+      <p>最后一个可以是AND、 OR或者 XOR运算符，如果不写，默认是AND运算。</p>
+    </blockquote>
+    <p>区间查询的条件可以支持普通查询的所有表达式，也就是说类似LIKE、GT和EXP这样的表达式都可以支持。另外区间查询还可以支持更多的条件，只要是针对一个字段的条件都可以写到一起，例如：</p>
+    <pre>
+      <code>$map['name']  = array(array('like','%a%'), array('like','%b%'), array('like','%c%'), 'ThinkPHP','or'); </code>
+    </pre>
+    <p>最后的查询条件是： <code>( name LIKE '%a%') OR ( name LIKE '%b%') OR ( name LIKE '%c%') OR ( name = 'ThinkPHP')</code></p>
+  </body>
+</html>

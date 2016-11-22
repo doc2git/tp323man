@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>静态路由其实属于规则路由的静态简化版（又称为URL映射），路由定义中不包含动态参数，静态路由不需要遍历路由规则而是直接定位，因此效率较高，但作用也有限。</p>
+    <p>如果我们定义了下面的静态路由</p>
+    <pre>
+      <code>'URL_ROUTER_ON'   =&gt; true, 
+'URL_MAP_RULES'=&gt;array(
+    'new/top' =&gt; 'news/index?type=top'
+)</code>
+    </pre>
+    <blockquote class="">
+      <p>注意：为了不影响动态路由的遍历效率，静态路由采用URL_MAP_RULES定义和动态路由区分开来</p>
+    </blockquote>
+    <p>定义之后，如果我们访问： <code>http://serverName/Home/new/top</code></p>
+    <p>其实是访问： <code>http://serverName/Home/news/index/type/top</code></p>
+    <p>静态路由是完整匹配，所以如果访问： <code>http://serverName/Home/new/top/var/test</code></p>
+    <p>尽管前面也有<code>new/top</code>，但并不会被匹配到<code>news/index/type/top</code>。</p>
+    <p>静态路由定义不受URL后缀影响，例如： <code>http://serverName/Home/new/top.html</code> 也可以正常访问。</p>
+    <blockquote class="">
+      <p>静态路由的路由地址 只支持字符串，格式：<code>[控制器/操作?]参数1=值1&amp;参数2=值2</code></p>
+    </blockquote>
+  </body>
+</html>

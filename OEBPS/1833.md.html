@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <h2 id="%E8%B0%83%E8%AF%95%E6%89%A7%E8%A1%8C%E7%9A%84sql%E8%AF%AD%E5%8F%A5">调试执行的SQL语句</h2>
+    <p>在模型操作中 ，为了更好的查明错误，经常需要查看下最近使用的SQL语句，我们可以用<code>getLastsql</code>方法来输出上次执行的sql语句。例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$User-&gt;find(1);
+echo $User-&gt;getLastSql();
+// 3.2版本中可以使用简化的方法
+echo $User-&gt;_sql();</code>
+    </pre>
+    <p>输出结果是 <code>SELECT * FROM think_user WHERE id = 1</code></p>
+    <p>并且每个模型都使用独立的最后SQL记录，互不干扰，但是可以用空模型的getLastSql方法获取全局的最后SQL记录。</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User模型
+$Info = M("Info"); // 实例化Info模型
+$User-&gt;find(1);
+$Info-&gt;find(2);
+echo M()-&gt;getLastSql();
+echo $User-&gt;getLastSql();
+echo $Info-&gt;getLastSql();</code>
+    </pre>
+    <p>输出结果是</p>
+    <pre>
+      <code>SELECT * FROM think_info  WHERE id = 2
+SELECT * FROM think_user  WHERE id = 1
+SELECT * FROM think_info  WHERE id = 2</code>
+    </pre>
+    <p>getLastSql方法只能获取最后执行的sql记录，如果需要了解更多的SQL日志，可以通过查看当前的页面Trace或者日志文件。</p>
+    <blockquote class="">
+      <p>注意：Mongo数据库驱动由于接口的特殊性，不存在执行SQL的概念，因此SQL日志记录功能是额外封装实现的，所以出于性能考虑，只有在开启调试模式的时候才支持使用getLastSql方法获取最后执行的SQL记录。</p>
+    </blockquote>
+    <h2 id="%E8%B0%83%E8%AF%95%E6%95%B0%E6%8D%AE%E5%BA%93%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF">调试数据库错误信息</h2>
+    <p>在模型操作中，还可以获取数据库的错误信息，例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$result = $User-&gt;find(1);
+if(false === $result){
+    echo $User-&gt;getDbError();
+}</code>
+    </pre>
+    <blockquote class="">
+      <p>CURD操作如果返回值为false，表示数据库操作发生错误，这个时候就需要使用模型的getDbError方法来查看数据库返回的具体错误信息。</p>
+    </blockquote>
+  </body>
+</html>

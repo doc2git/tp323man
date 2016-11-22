@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ThinkPHP基于MVC（Model-View-Controller，模型-视图-控制器）模式，并且均支持多层（multi-Layer）设计。</p>
+    <h2 id="%E6%A8%A1%E5%9E%8B%EF%BC%88model%EF%BC%89%E5%B1%82">模型（Model）层</h2>
+    <p>默认的模型层由Model类构成，但是随着项目的增大和业务体系的复杂化，单一的模型层很难解决要求，ThinkPHP支持多层Model，设计思路很简单，不同的模型层仍然都继承自系统的Model类，但是在目录结构和命名规范上做了区分。</p>
+    <p>例如在某个项目设计中需要区分数据层、逻辑层、服务层等不同的模型层，我们可以在模块目录下面创建<code>Model</code>、<code>Logic</code>和<code>Service</code>目录，把对用户表的所有模型操作分成三层：</p>
+    <ol>
+      <li>数据层：Model/UserModel 用于定义数据相关的自动验证和自动完成和数据存取接口 </li>
+      <li>逻辑层：Logic/UserLogic 用于定义用户相关的业务逻辑 </li>
+      <li>服务层：Service/UserService 用于定义用户相关的服务接口等 </li>
+    </ol>
+    <p>而这三个模型操作类统一都继承Model类即可，例如： </p>
+    <p>数据层：<code>Home/Model/UserModel.class.php</code></p>
+    <pre>
+      <code>namespace Home\Model;
+use Think\Model;
+class UserModel extends Model{
+}</code>
+    </pre>
+    <p>逻辑层：<code>Home/Logic/UserLogic.class.php</code></p>
+    <pre>
+      <code>namespace Home\Logic;
+use Think\Model;
+class UserLogic extends Model{
+}</code>
+    </pre>
+    <p>服务层：<code>Home/Service/UserService.class.php</code></p>
+    <pre>
+      <code>namespace Home\Service;
+use Think\Model;
+class UserService extends Model{
+}</code>
+    </pre>
+    <p>这样区分不同的模型层之后对用户数据的操作就非常清晰，在调用的时候，我们也可以用内置的D方法很方便的调用：</p>
+    <pre>
+      <code>D('User') //实例化UserModel
+D('User','Logic') //实例化UserLogic
+D('User','Service') //实例化UserService</code>
+    </pre>
+    <p>默认的模型层是Model，我们也可以更改设置，例如：</p>
+    <pre>
+      <code>'DEFAULT_M_LAYER'       =&gt;  'Logic', // 更改默认的模型层名称为Logic</code>
+    </pre>
+    <p>更改之后，实例化的时候需要改成：</p>
+    <pre>
+      <code>D('User') //实例化UserLogic
+D('User','Model') //实例化UserModel
+D('User','Service') //实例化UserService</code>
+    </pre>
+    <blockquote class="">
+      <p>对模型层的分层划分是很灵活的，开发人员可以根据项目的需要自由定义和增加模型分层，你也完全可以只使用Model层。</p>
+    </blockquote>
+    <h2 id="%E8%A7%86%E5%9B%BE%EF%BC%88view%EF%BC%89%E5%B1%82">视图（View）层</h2>
+    <p>视图层由模板和模板引擎组成，在模板中可以直接使用PHP代码，模板引擎的设计会在后面讲述，通过驱动也可以支持其他第三方的模板引擎。视图的多层可以简单的通过目录（也就是模板主题）区分，例如：</p>
+    <pre>
+      <code>View/default/User/add.html
+View/blue/User/add.html</code>
+    </pre>
+    <p>复杂一点的多层视图还可以更进一步，采用不同的视图目录来完成，例如：</p>
+    <pre>
+      <code>view 普通视图层目录
+mobile 手机端访问视图层目录</code>
+    </pre>
+    <p>这样做的好处是每个不同的视图层都可以支持不同的模板主题功能。</p>
+    <p>默认的视图层是View目录，我们可以调整设置如下：</p>
+    <pre>
+      <code>'DEFAULT_V_LAYER'       =&gt;  'Mobile', // 默认的视图层名称更改为Mobile</code>
+    </pre>
+    <blockquote class="">
+      <p>非默认视图层目录的模板获取需要使用T函数，后面会讲到。</p>
+    </blockquote>
+    <h2 id="%E6%8E%A7%E5%88%B6%E5%99%A8%EF%BC%88controller%EF%BC%89%E5%B1%82">控制器（Controller）层</h2>
+    <p>ThinkPHP的控制器层由<strong>核心控制器</strong>和<strong>业务控制器</strong>组成，核心控制器由系统内部的App类完成，负责应用（包括模块、控制器和操作）的调度控制，包括HTTP请求拦截和转发、加载配置等。业务控制器则由用户定义的控制器类完成。多层业务控制器的实现原理和模型的分层类似，例如业务控制器和事件控制器：</p>
+    <pre>
+      <code>Controller/UserController //用于用户的业务逻辑控制和调度
+Event/UserEvent //用于用户的事件响应操作</code>
+    </pre>
+    <p>访问控制器 <code>Home/Controller/UserController.class.php</code> 定义如下：</p>
+    <pre>
+      <code>namespace Home\Controller;
+use Think\Controller;
+class UserController extends Controller{
+}</code>
+    </pre>
+    <p>事件控制器 <code>Home/Event/UserEvent.class.php</code> 定义如下：</p>
+    <pre>
+      <code>namespace Home\Event;
+use Think\Controller;
+class UserEvent extends Controller{
+}</code>
+    </pre>
+    <p>UserController负责外部交互响应，通过URL请求响应，例如 <code>http://serverName/User/index</code>,而 <code>UserEvent</code>负责内部的事件响应，并且只能在内部调用： </p>
+    <pre>
+      <code>A('User','Event');</code>
+    </pre>
+    <p>默认的访问控制器层是Controller，我们可以调整设置如下：</p>
+    <pre>
+      <code>'DEFAULT_C_LAYER'       =&gt;  'Event', // 默认的控制器层名称改为Event</code>
+    </pre>
+    <p>所以是和外部隔离的。</p>
+    <p>多层控制器的划分也不是强制的，可以根据应用的需要自由分层。控制器分层里面可以根据需要调用分层模型，也可以调用不同的分层视图（主题）。</p>
+    <blockquote class="">
+      <p>在MVC三层中，ThinkPHP并不依赖M或者V，甚至可以只有C或者只有V，这个在ThinkPHP的设计里面是一个很重要的用户体验设计，用户只需要定义视图，在没有C的情况下也能自动识别。</p>
+    </blockquote>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <h2 id="%E5%90%AF%E7%94%A8%E8%B7%AF%E7%94%B1">启用路由</h2>
+    <p>要使用路由功能，前提是你的URL支持PATH_INFO（或者兼容URL模式也可以，采用普通URL模式的情况下不支持路由功能），并且在应用（或者模块）配置文件中开启路由：</p>
+    <pre>
+      <code>// 开启路由
+'URL_ROUTER_ON'   =&gt; true, </code>
+    </pre>
+    <blockquote class="">
+      <p>路由功能可以针对模块，也可以针对全局，针对模块的路由则需要在模块配置文件中开启和设置路由，如果是针对全局的路由，则是在公共模块的配置文件中开启和设置（后面我们以模块路由定义为例）。</p>
+    </blockquote>
+    <p>然后就是配置路由规则了，在模块的配置文件中使用<strong>URL_ROUTE_RULES</strong>参数进行配置，配置格式是一个数组，每个元素都代表一个路由规则，例如：</p>
+    <pre>
+      <code>'URL_ROUTE_RULES'=&gt;array(
+    'news/:year/:month/:day' =&gt; array('News/archive', 'status=1'),
+    'news/:id'               =&gt; 'News/read',
+    'news/read/:id'          =&gt; '/news/:1',
+),</code>
+    </pre>
+    <p>系统会按定义的顺序依次匹配路由规则，一旦匹配到的话，就会定位到路由定义中的控制器和操作方法去执行（可以传入其他的参数），并且后面的规则不会继续匹配。</p>
+    <h2 id="%E8%B7%AF%E7%94%B1%E5%AE%9A%E4%B9%89">路由定义</h2>
+    <p>路由规则的定义格式为： <strong>'路由表达式'=&gt;'路由地址和传入参数'</strong></p>
+    <p>或者：<strong>array('路由表达式','路由地址','传入参数')</strong></p>
+    <blockquote class="">
+      <p>模块路由和全局路由配置的区别在于，全局路由的路由地址必须包含模块。</p>
+    </blockquote>
+    <h5 id="%E8%B7%AF%E7%94%B1%E8%A1%A8%E8%BE%BE%E5%BC%8F">路由表达式</h5>
+    <p>路由表达式包括规则路由和正则路由的定义表达式，只能使用字符串。</p>
+    <table>
+      <thead>
+        <tr>
+          <th>表达式</th>
+          <th>示例</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>正则表达式</td>
+          <td>/^blog\/(\d+)$/</td>
+        </tr>
+        <tr>
+          <td>规则表达式</td>
+          <td>blog/:id</td>
+        </tr>
+      </tbody>
+    </table>
+    <blockquote class="">
+      <p>详细的规则路由和正则路由表达式的定义方法参考后面的章节。</p>
+    </blockquote>
+    <h5 id="%E8%B7%AF%E7%94%B1%E5%9C%B0%E5%9D%80">路由地址</h5>
+    <p>路由地址（可以支持传入额外参数）表示前面的路由表达式需要路由到的地址（包括内部地址和外部地址），并且允许隐式传入URL里面没有的一些参数，这里允许使用字符串或者数组方式定义，特殊情况下还可以采用闭包函数定义路由功能，支持下面6种方式定义：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>定义方式</th>
+          <th>定义格式</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>方式1：路由到内部地址（字符串）</td>
+          <td>'[控制器/操作]?额外参数1=值1&amp;额外参数2=值2...'</td>
+        </tr>
+        <tr>
+          <td>方式2：路由到内部地址（数组）参数采用字符串方式</td>
+          <td>array('[控制器/操作]','额外参数1=值1&amp;额外参数2=值2...')</td>
+        </tr>
+        <tr>
+          <td>方式3：路由到内部地址（数组）参数采用数组方式</td>
+          <td>array('[控制器/操作]',array('额外参数1'=&gt;'值1','额外参数2'=&gt;'值2'...)[,路由参数])</td>
+        </tr>
+        <tr>
+          <td>方式4：路由到外部地址（字符串）301重定向</td>
+          <td>'外部地址'</td>
+        </tr>
+        <tr>
+          <td>方式5：路由到外部地址（数组）可以指定重定向代码</td>
+          <td>array('外部地址','重定向代码'[,路由参数])</td>
+        </tr>
+        <tr>
+          <td>方式6：闭包函数</td>
+          <td>function($name){ echo 'Hello,'.$name;}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>如果你定义的是全局路由（在公共模块的配置文件中定义），那么路由地址的定义格式中需要增加模块名，例如：</p>
+    <pre>
+      <code>'blog/:id'=&gt;'Home/blog/read' // 表示路由到Home模块的blog控制器的read操作方法</code>
+    </pre>
+    <p>如果路由地址以“/”或者“http”开头则会认为是一个重定向地址或者外部地址，例如：</p>
+    <pre>
+      <code>'blog/:id'=&gt;'/blog/read/id/:1'</code>
+    </pre>
+    <p>和</p>
+    <pre>
+      <code>'blog/:id'=&gt;'blog/read'</code>
+    </pre>
+    <p>虽然都是路由到同一个地址，但是前者采用的是301重定向的方式路由跳转，这种方式的好处是URL可以比较随意（包括可以在URL里面传入更多的非标准格式的参数），而后者只是支持模块和操作地址。</p>
+    <p>举个例子，如果我们希望 <code>avatar/123</code> 重定向到 <code>/member/avatar/id/123_small</code> 的话，只能使用：</p>
+    <pre>
+      <code>'avatar/:id'=&gt;'/member/avatar/id/:1_small'</code>
+    </pre>
+    <p>路由地址采用重定向地址的话，如果要引用动态变量，也是采用 <code>:1、:2</code> 的方式。</p>
+    <p>采用重定向到外部地址通常对网站改版后的URL迁移过程非常有用，例如：</p>
+    <pre>
+      <code>'blog/:id'=&gt;'http://blog.thinkphp.cn/read/:1'</code>
+    </pre>
+    <p>表示当前网站（可能是http://thinkphp.cn）的 <code>blog/123</code> 地址会直接重定向到 <code>http://blog.thinkphp.cn/read/123</code>。</p>
+    <p>默认情况下，外部地址的重定向采用301重定向，如果希望采用其它的，可以使用：</p>
+    <pre>
+      <code>'blog/:id'=&gt;array('http://blog.thinkphp.cn/read/:1',302);</code>
+    </pre>
+    <p>在路由跳转的时候支持额外传入参数对（额外参数指的是不在URL里面的参数，隐式传入需要的操作中，有时候能够起到一定的安全防护作用，后面我们会提到），支持 <code>额外参数1=值1&amp;额外参数2=值2</code> 或者 <code>array('额外参数1'=&gt;'值1','额外参数2'=&gt;'值2'...)</code> 这样的写法，可以参考不同的定义方式选择。例如：</p>
+    <pre>
+      <code>'blog/:id'=&gt;'blog/read?status=1&amp;app_id=5',
+'blog/:id'=&gt;array('blog/read?status=1&amp;app_id=5'),
+'blog/:id'=&gt;array('blog/read','status=1&amp;app_id=5'),
+'blog/:id'=&gt;array('blog/read',array('status'=&gt;1,'app_id'=&gt;5)),</code>
+    </pre>
+    <p>上面的路由规则定义中额外参数的传值方式都是等效的。<code>status</code>和<code>app_id</code>参数都是URL里面不存在的，属于隐式传值，当然并不一定需要用到，只是在需要的时候可以使用。</p>
+    <h2 id="%E8%B7%AF%E7%94%B1%E5%8F%82%E6%95%B0">路由参数</h2>
+    <p>当路由地址采用数组方式定义的时候，还可以传入额外的路由参数。</p>
+    <blockquote class="">
+      <p>这些参数的作用是限制前面定义的路由规则的生效条件。</p>
+    </blockquote>
+    <h3 id="%E9%99%90%E5%88%B6url%E5%90%8E%E7%BC%80">限制URL后缀</h3>
+    <p>例如：</p>
+    <pre>
+      <code>'blog/:id'=&gt;array('blog/read','status=1&amp;app_id=5',array('ext'=&gt;'html')),</code>
+    </pre>
+    <p>就可以限制html后缀访问该路由规则才能生效。</p>
+    <h3 id="%E9%99%90%E5%88%B6%E8%AF%B7%E6%B1%82%E7%B1%BB%E5%9E%8B">限制请求类型</h3>
+    <p>例如：</p>
+    <pre>
+      <code>'blog/:id'=&gt;array('blog/read','status=1&amp;app_id=5',array('method'=&gt;'get')),</code>
+    </pre>
+    <p>就限制了只有GET请求该路由规则才能生效。</p>
+    <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A3%80%E6%B5%8B">自定义检测</h3>
+    <p>支持自定义检测，例如： 例如：</p>
+    <pre>
+      <code>'blog/:id'=&gt;array('blog/read','status=1&amp;app_id=5',array('callback'=&gt;'checkFun')),</code>
+    </pre>
+    <p>就可以自定义checkFun函数来检测是否生效，如果函数返回false则表示不生效。</p>
+  </body>
+</html>

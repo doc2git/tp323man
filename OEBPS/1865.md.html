@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <blockquote class="">
+      <p>如果发生在本地测试正常，但是一旦部署到服务器环境后会发生只能访问首页的情况，很有可能是你的服务器或者空间不支持PATH_INFO所致。</p>
+    </blockquote>
+    <p>系统内置提供了对PATH_INFO的兼容判断处理，但是不能确保在所有的环境下面都可以支持。如果你确认你的空间不支持PATH_INFO的URL方式的话，有下面几种方式可以处理：</p>
+    <p>修改URL_PATHINFO_FETCH配置参数新版内置了通过对<code>ORIG_PATH_INFO</code>,<code>REDIRECT_PATH_INFO</code>,<code>REDIRECT_URL</code>三个系统$_SERVER变量的判断处理来兼容读取$_SERVER['PATH_INFO']，如果你的主机环境有更特殊的设置，可以修改URL_PATHINFO_FETCH参数，改成你的环境配置对应的PATH_INFO的系统变量兼容获取名称，例如：</p>
+    <pre>
+      <code>'URL_PATHINFO_FETCH' =&gt; 'ORIG_PATH_INFO,REDIRECT_URL,其他参数…'</code>
+    </pre>
+    <p>如果你的环境没有任何对应的系统变量，那么可以封装一个获取方法，例如：</p>
+    <pre>
+      <code>function get_path_info(){
+     // 根据你的环境兼容获取PATH_INFO 具体代码略
+     return $path; // 直接返回获取到的PATH_INFO信息
+}</code>
+    </pre>
+    <p>然后我们修改下URL_PATHINFO_FETCH参数的配置值，改为：</p>
+    <pre>
+      <code>'URL_PATHINFO_FETCH'     =&gt;   ':get_path_info'</code>
+    </pre>
+    <p>配置后，系统会自动读取get_path_info方法来获取$_SERVER['PATH_INFO']的值。</p>
+    <p>配置你的WEB服务器重写规则模拟PATH_INFO实现如果你有服务器或者空间的配置权限，可以考虑通过配置URL重写规则来模拟实现。 具体可以参考后面<a href="#">URL重写</a>中的内容。</p>
+    <p>采用兼容URL模式运行这是最坏的方法，配置你的URL模式为3（表示兼容URL模式） 然后在需要生成URL的地方采用U方法动态生成即可。</p>
+  </body>
+</html>

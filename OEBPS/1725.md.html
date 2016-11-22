@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>插件控制器可以更加方便的在控制器以外扩展你的功能，当URL中传入插件控制器变量的时候，会自动定位到插件控制器中的操作方法。</p>
+    <p>插件控制器的变量由参数 <strong>VAR_ADDON</strong> 进行设置，默认为addon，例如我们在URL中传入： <code>http://serverName/Home/info/index/addon/SystemInfo</code></p>
+    <p>由于传入了addon参数，因此这里的Info控制器并非原来的 <code>Home/Controller/InfoController.class.php</code></p>
+    <p>而是调用SystemInfo插件的InfoController控制器了，文件位于 <code>Addon/SystemInfo/Controller/InfoController.class.php</code>。</p>
+    <p>插件控制器本身的定义和普通的访问控制器一样，例如：</p>
+    <pre>
+      <code>namespace Addon\SystemInfo\Controller;
+class InfoController extends \Think\Controller{
+    public function index(){
+        echo 'Addon SystemInfo';
+    }
+}</code>
+    </pre>
+    <p>这样，我们在访问<code>http://serverName/Home/info/index/addon/SystemInfo</code>的时候 就会输出 <code>Addon SystemInfo</code></p>
+    <p>如果我们的插件目录不是Addon，而是Plugin，那么需要在配置文件中定义：</p>
+    <pre>
+      <code>'VAR_ADDON'    =&gt;    'plugin'</code>
+    </pre>
+    <p>然后访问URL地址就变成了 <code>http://serverName/Home/info/index/plugin/SystemInfo</code></p>
+  </body>
+</html>

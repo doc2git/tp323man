@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>快捷查询方式是一种多字段查询的简化写法，可以进一步简化查询条件的写法，在多个字段之间用<strong>|</strong>分割表示OR查询，用<strong>&amp;</strong>分割表示AND查询，可以实现下面的查询，例如：</p>
+    <h2 id="%E4%B8%8D%E5%90%8C%E5%AD%97%E6%AE%B5%E7%9B%B8%E5%90%8C%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6">不同字段相同的查询条件</h2>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$map['name|title'] = 'thinkphp';
+// 把查询条件传入查询方法
+$User-&gt;where($map)-&gt;select(); </code>
+    </pre>
+    <p>上面的查询其实可以等效于</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$map['name'] = 'thinkphp';
+$map['title'] = 'thinkphp';
+$map['_logic'] = 'OR';
+// 把查询条件传入查询方法
+$User-&gt;where($map)-&gt;select(); </code>
+    </pre>
+    <p>查询条件就变成 <code>name= 'thinkphp' OR title = 'thinkphp'</code></p>
+    <h2 id="%E4%B8%8D%E5%90%8C%E5%AD%97%E6%AE%B5%E4%B8%8D%E5%90%8C%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6">不同字段不同的查询条件</h2>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$map['status&amp;title'] =array('1','thinkphp','_multi'=&gt;true);
+// 把查询条件传入查询方法
+$User-&gt;where($map)-&gt;select(); </code>
+    </pre>
+    <p>上面的查询等效于：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$map['status'] = 1;
+$map['title']  = 'thinkphp';
+// 把查询条件传入查询方法
+$User-&gt;where($map)-&gt;select(); </code>
+    </pre>
+    <p><code>'_multi'=&gt;true</code>必须加在数组的最后，表示当前是多条件匹配，这样查询条件就变成 <code>status= 1 AND title = 'thinkphp'</code></p>
+    <p>，查询字段支持更多的，例如：</p>
+    <pre>
+      <code>$map['status&amp;score&amp;title'] =array('1',array('gt','0'),'thinkphp','_multi'=&gt;true);</code>
+    </pre>
+    <p>等效于：</p>
+    <pre>
+      <code>$map['status'] = 1;
+$map['score'] = array('gt',0);
+$map['title'] = 'thinkphp';</code>
+    </pre>
+    <p>查询条件就变成 <code>status= 1 AND score &gt;0 AND  title = 'thinkphp'</code></p>
+    <blockquote class="">
+      <p>注意：快捷查询方式中“|”和“&amp;”不能同时使用。</p>
+    </blockquote>
+  </body>
+</html>

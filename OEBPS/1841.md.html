@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>永远不要相信客户端提交的数据，所以对于输入数据的过滤势在必行，我们建议：</p>
+    <ul>
+      <li>开启<a href="#">令牌验证</a>避免数据的重复提交；</li>
+      <li>使用<a href="#">自动验证</a>和<a href="#">自动完成</a>机制进行初步过滤；</li>
+      <li>使用系统提供的<a href="#">I函数</a>获取用户输入数据；</li>
+      <li>对不同的应用需求设置不同的安全过滤函数，常见的安全过滤函数包括stripslashes、htmlentities、htmlspecialchars和strip_tags等；</li>
+    </ul>
+    <h2 id="%E4%BD%BF%E7%94%A8i%E5%87%BD%E6%95%B0%E8%BF%87%E6%BB%A4">使用I函数过滤</h2>
+    <p>使用系统内置的<code>I函数</code>是避免输入数据出现安全隐患的重要手段，I函数默认的过滤方法是<code>htmlspecialchars</code>，如果我们需要采用其他的方法进行安全过滤，有两种方式：</p>
+    <p>如果是全局的过滤方法，那么可以设置DEFAULT_FILTER，例如：</p>
+    <pre>
+      <code>'DEFAULT_FILTER'        =&gt;  'strip_tags',</code>
+    </pre>
+    <p>设置了DEFAULT_FILTER后，所有的I函数调用默认都会使用<code>strip_tags</code>进行过滤。</p>
+    <p>当然，我们也可以设置多个过滤方法，例如：</p>
+    <pre>
+      <code>'DEFAULT_FILTER'        =&gt;  'strip_tags,stripslashes',</code>
+    </pre>
+    <p>如果是仅需要对个别数据采用特殊的过滤方法，可以在调用I函数的时候传入过滤方法，例如：</p>
+    <pre>
+      <code>I('post.id',0,'intval'); // 用intval过滤$_POST['id']
+I('get.title','','strip_tags'); // 用strip_tags过滤$_GET['title']</code>
+    </pre>
+    <blockquote class="">
+      <p>要尽量避免直接使用$_GET $_POST $_REQUEST 等数据，这些可能会导致安全的隐患。 就算你要获取整个$_GET数据，我们也建议你使用 <code>I('get.')</code> 的方式</p>
+    </blockquote>
+    <h2 id="%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4">写入数据过滤</h2>
+    <p>如果你没有使用I函数进行数据过滤的话，还可以在模型的写入操作之前调用<strong>filter</strong>方法对数据进行安全过滤，例如：</p>
+    <pre>
+      <code>$this-&gt;data($data)-&gt;filter('strip_tags')-&gt;add();</code>
+    </pre>
+  </body>
+</html>

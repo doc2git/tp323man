@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>输出某个变量是开发过程中经常会用到的调试方法，除了使用php内置的var_dump和print_r之外，ThinkPHP框架内置了一个对浏览器友好的dump方法，用于输出变量的信息到浏览器查看。</p>
+    <p>用法：</p>
+    <pre>
+      <code>dump($var, $echo=true, $label=null, $strict=true)</code>
+    </pre>
+    <p>相关参数的使用如下：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>参数</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>var（必须）</td>
+          <td>要输出的变量，支持所有变量类型</td>
+        </tr>
+        <tr>
+          <td>echo（可选）</td>
+          <td>是否直接输出，默认为true，如果为false则返回但不输出</td>
+        </tr>
+        <tr>
+          <td>label（可选）</td>
+          <td>变量输出的label标识，默认为空</td>
+        </tr>
+        <tr>
+          <td>strict（可选）</td>
+          <td>输出变量类型，默认为true，如果为false则采用print_r输出</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>如果echo参数为false 则返回要输出的字符串</p>
+    <p>使用示例：</p>
+    <pre>
+      <code> $Blog = D("Blog");
+ $blog = $Blog-&gt;find(3);
+ dump($blog);</code>
+    </pre>
+    <p>在浏览器输出的结果是：</p>
+    <pre>
+      <code>array(12) {
+   ["id"]            =&gt; string(1) "3"
+   ["name"]          =&gt; string(0) ""
+   ["user_id"]       =&gt; string(1) "0"
+   ["cate_id"]       =&gt; string(1) "0"
+   ["title"]         =&gt; string(4) "test"
+   ["content"]       =&gt; string(4) "test"
+   ["create_time"]   =&gt; string(1) "0"
+   ["update_time"]   =&gt; string(1) "0"
+   ["status"]        =&gt; string(1) "0"
+   ["read_count"]    =&gt; string(1) "0"
+   ["comment_count"] =&gt; string(1) "0"
+   ["tags"]          =&gt; string(0) ""
+}</code>
+    </pre>
+  </body>
+</html>

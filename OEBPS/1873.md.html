@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>系统内置了一个cookie函数用于支持和简化Cookie的相关操作，该函数可以完成Cookie的设置、获取、删除操作。</p>
+    <h2 id="cookie%E8%AE%BE%E7%BD%AE">Cookie设置</h2>
+    <pre>
+      <code>cookie('name','value');  //设置cookie
+cookie('name','value',3600); // 指定cookie保存时间</code>
+    </pre>
+    <p>还可以支持参数传入的方式完成复杂的cookie赋值，下面是对cookie的值设置3600秒有效期，并且加上cookie前缀think_</p>
+    <pre>
+      <code>cookie('name','value',array('expire'=&gt;3600,'prefix'=&gt;'think_'))</code>
+    </pre>
+    <p>数组参数可以采用query形式参数</p>
+    <pre>
+      <code>cookie('name','value','expire=3600&amp;prefix=think_')</code>
+    </pre>
+    <p>和上面的用法等效。</p>
+    <blockquote class="">
+      <p>后面的参数支持<code>prefix,expire,path,domain和httponly（**3.2.2版本新增**）</code>五个索引参数，如果没有传入或者传入空值的话，会默认取<code>COOKIE_PREFIX</code>、<code>COOKIE_EXPIRE</code>、<code>COOKIE_PATH</code>、<code>COOKIE_DOMAIN</code>和<code>COOKIE_HTTPONLY</code>五个配置参数。如果只传入个别参数，那么也会和默认的配置参数合并。</p>
+    </blockquote>
+    <p>支持<strong>给cookie设置数组值</strong>（采用JSON编码格式保存），例如：</p>
+    <pre>
+      <code>cookie('name',array('value1','value2'));</code>
+    </pre>
+    <h2 id="cookie%E8%8E%B7%E5%8F%96">Cookie获取</h2>
+    <p>获取cookie很简单，无论是怎么设置的cookie，只需要使用：</p>
+    <pre>
+      <code>$value = cookie('name');</code>
+    </pre>
+    <p>如果没有设置cookie前缀的话 相当于</p>
+    <pre>
+      <code>$value = $_COOKIE['name'];</code>
+    </pre>
+    <p>如果设置了cookie前缀的话，相当于</p>
+    <pre>
+      <code>$value = $_COOKIE['前缀+name'];</code>
+    </pre>
+    <p>如果要获取所有的cookie，可以使用：</p>
+    <pre>
+      <code>$value = cookie();</code>
+    </pre>
+    <p>该用法相当于</p>
+    <pre>
+      <code>$value = $_COOKIE;</code>
+    </pre>
+    <blockquote class="">
+      <p>注意，该用法会返回所有的cookie而无论是否当前的前缀。</p>
+    </blockquote>
+    <h2 id="cookie%E5%88%A0%E9%99%A4">Cookie删除</h2>
+    <p>删除某个cookie的值，使用：</p>
+    <pre>
+      <code>cookie('name',null);</code>
+    </pre>
+    <p>要删除所有的Cookie值，可以使用：</p>
+    <pre>
+      <code>cookie(null); // 清空当前设定前缀的所有cookie值
+cookie(null,'think_'); //  清空指定前缀的所有cookie值</code>
+    </pre>
+  </body>
+</html>

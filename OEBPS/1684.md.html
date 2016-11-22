@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <h2 id="%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95">自动创建目录</h2>
+    <p>在第一次访问应用入口文件的时候，会显示如图所示的默认的欢迎页面，并自动生成了一个默认的应用模块Home。</p>
+    <p>
+      <img src="images/http/box.kancloud.cn/2015-04-18_5531edcfc101b.jpg" alt=""/>
+    </p>
+    <p>接下来再看原来空的<code>Application</code>目录下面，已经自动生成了公共模块<code>Common</code>、默认的<code>Home</code>模块和<code>Runtime</code>运行时目录的目录结构：</p>
+    <pre>
+      <code>Application
+├─Common         应用公共模块
+│  ├─Common      应用公共函数目录
+│  └─Conf        应用公共配置文件目录
+├─Home           默认生成的Home模块
+│  ├─Conf        模块配置文件目录
+│  ├─Common      模块函数公共目录
+│  ├─Controller  模块控制器目录
+│  ├─Model       模块模型目录
+│  └─View        模块视图文件目录
+├─Runtime        运行时目录
+│  ├─Cache       模版缓存目录
+│  ├─Data        数据目录
+│  ├─Logs        日志目录
+│  └─Temp        缓存目录</code>
+    </pre>
+    <blockquote class="">
+      <p>如果你不是Windows环境下面的话，需要对应用目录<code>Application</code>设置可写权限才能自动生成。<br/>
+如果不是调试模式的话，会在Runtime目录下面生成<code>common~runtime.php</code>文件（应用编译缓存文件）。</p>
+    </blockquote>
+    <h2 id="%E7%9B%AE%E5%BD%95%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6">目录安全文件</h2>
+    <p>在自动生成目录结构的同时，在各个目录下面我们还看到了index.html文件，这是ThinkPHP自动生成的目录安全文件。</p>
+    <p>为了避免某些服务器开启了目录浏览权限后可以直接在浏览器输入URL地址查看目录，系统默认开启了目录安全文件机制，会在自动生成目录的时候生成空白的<code>index.html</code>文件，当然安全文件的名称可以设置，例如你想给安全文件定义为<code>default.html</code>可以在入口文件中添加：</p>
+    <pre>
+      <code>define('DIR_SECURE_FILENAME', 'default.html');
+define('APP_PATH','./Application/');
+require './ThinkPHP/ThinkPHP.php';</code>
+    </pre>
+    <p>如果你的环境足够安全，不希望生成目录安全文件，可以在入口文件里面关闭目录安全文件的生成，例如：</p>
+    <pre>
+      <code>define('BUILD_DIR_SECURE', false);</code>
+    </pre>
+  </body>
+</html>

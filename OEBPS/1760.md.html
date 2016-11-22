@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ThinkPHP的数据写入操作使用<strong>add方法</strong>，使用示例如下：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$data['name'] = 'ThinkPHP';
+$data['email'] = 'ThinkPHP@gmail.com';
+$User-&gt;add($data);</code>
+    </pre>
+    <p>如果是Mysql数据库的话，还可以支持在数据插入时允许更新操作:</p>
+    <pre>
+      <code>add($data='',$options=array(),$replace=false)</code>
+    </pre>
+    <p>其中add方法增加$replace参数(是否添加数据时允许覆盖)，true表示覆盖，默认为false</p>
+    <p>或者使用data方法连贯操作</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$User-&gt;data($data)-&gt;add();</code>
+    </pre>
+    <p>如果在add之前已经创建数据对象的话（例如使用了create或者data方法），add方法就不需要再传入数据了。 使用create方法的例子：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+// 根据表单提交的POST数据创建数据对象
+if($User-&gt;create()){
+    $result = $User-&gt;add(); // 写入数据到数据库 
+    if($result){
+        // 如果主键是自动增长型 成功后返回值就是最新插入的值
+        $insertId = $result;
+    }
+}</code>
+    </pre>
+    <blockquote class="">
+      <p>create方法并不算是连贯操作，因为其返回值可能是布尔值，所以必须要进行严格判断。</p>
+    </blockquote>
+    <h2 id="%E6%94%AF%E6%8C%81%E7%9A%84%E8%BF%9E%E8%B4%AF%E6%93%8D%E4%BD%9C-1">支持的连贯操作</h2>
+    <p>在执行add方法之前，我们可以调用相关的连贯操作方法，配合完成数据写入操作。</p>
+    <p>写入操作支持的连贯操作方法包括： </p>
+    <table>
+      <thead>
+        <tr>
+          <th>连贯操作</th>
+          <th>作用</th>
+          <th>支持的参数类型</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>table</td>
+          <td>用于定义要操作的数据表名称</td>
+          <td>字符串和数组</td>
+        </tr>
+        <tr>
+          <td>data</td>
+          <td>用于指定要写入的数据对象</td>
+          <td>数组和对象</td>
+        </tr>
+        <tr>
+          <td>field</td>
+          <td>用于定义要写入的字段</td>
+          <td>字符串和数组</td>
+        </tr>
+        <tr>
+          <td>relation</td>
+          <td>用于关联查询（需要关联模型支持）</td>
+          <td>字符串</td>
+        </tr>
+        <tr>
+          <td>validate</td>
+          <td>用于数据自动验证</td>
+          <td>数组</td>
+        </tr>
+        <tr>
+          <td>auto</td>
+          <td>用于数据自动完成</td>
+          <td>数组</td>
+        </tr>
+        <tr>
+          <td>filter</td>
+          <td>用于数据过滤</td>
+          <td>字符串</td>
+        </tr>
+        <tr>
+          <td>scope</td>
+          <td>用于命名范围</td>
+          <td>字符串、数组</td>
+        </tr>
+        <tr>
+          <td>bind</td>
+          <td>用于数据绑定操作</td>
+          <td>数组</td>
+        </tr>
+        <tr>
+          <td>token</td>
+          <td>用于令牌验证</td>
+          <td>布尔值</td>
+        </tr>
+        <tr>
+          <td>comment</td>
+          <td>用于SQL注释</td>
+          <td>字符串</td>
+        </tr>
+        <tr>
+          <td>fetchSql</td>
+          <td>不执行SQL而只是返回SQL</td>
+          <td>布尔值</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>可以支持不执行SQL而只是返回SQL语句，例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$data['name'] = 'ThinkPHP';
+$data['email'] = 'ThinkPHP@gmail.com';
+$sql = $User-&gt;fetchSql(true)-&gt;add($data);
+echo $sql;
+// 输出结果类似于
+// INSERT INTO think_user (name,email) VALUES ('ThinkPHP','ThinkPHP@gmail.com')</code>
+    </pre>
+    <h5 id="%E5%AD%97%E6%AE%B5%E8%BF%87%E6%BB%A4">字段过滤</h5>
+    <p>如果写入了数据表中不存在的字段数据，则会被直接过滤，例如：</p>
+    <pre>
+      <code>$data['name'] = 'thinkphp';
+$data['email'] = 'thinkphp@gmail.com';
+$data['test'] = 'test';
+$User = M('User');
+$User-&gt;data($data)-&gt;add();</code>
+    </pre>
+    <p>其中test字段是不存在的，所以写入数据的时候会自动过滤掉。</p>
+    <blockquote class="">
+      <p>在3.2.2版本以上，如果开启调试模式的话，则会抛出异常，提示：<code>非法数据对象：[test=&gt;test]</code></p>
+    </blockquote>
+    <p>如果在add方法之前调用field方法，则表示只允许写入指定的字段数据，其他非法字段将会被过滤，例如：</p>
+    <pre>
+      <code>$data['name'] = 'thinkphp';
+$data['email'] = 'thinkphp@gmail.com';
+$data['test'] = 'test';
+$User = M('User');
+$User-&gt;field('name')-&gt;data($data)-&gt;add();</code>
+    </pre>
+    <p>最终只有name字段的数据被允许写入，email和test字段直接被过滤了，哪怕email也是数据表中的合法字段。</p>
+    <h5 id="%E5%AD%97%E6%AE%B5%E5%86%85%E5%AE%B9%E8%BF%87%E6%BB%A4">字段内容过滤</h5>
+    <p>通过filter方法可以对数据的值进行过滤处理，例如：</p>
+    <pre>
+      <code>$data['name'] = '&lt;b&gt;thinkphp&lt;/b&gt;';
+$data['email'] = 'thinkphp@gmail.com';
+$User = M('User');
+$User-&gt;data($data)-&gt;filter('strip_tags')-&gt;add();</code>
+    </pre>
+    <p>写入数据库的时候会把name字段的值转化为<code>thinkphp</code>。</p>
+    <blockquote class="">
+      <p>filter方法的参数是一个回调类型，支持函数或者闭包定义。</p>
+    </blockquote>
+    <h2 id="%E6%89%B9%E9%87%8F%E5%86%99%E5%85%A5">批量写入</h2>
+    <p>在某些情况下可以支持数据的批量写入，例如：</p>
+    <pre>
+      <code>// 批量添加数据
+$dataList[] = array('name'=&gt;'thinkphp','email'=&gt;'thinkphp@gamil.com');
+$dataList[] = array('name'=&gt;'onethink','email'=&gt;'onethink@gamil.com');
+$User-&gt;addAll($dataList);</code>
+    </pre>
+    <blockquote class="">
+      <p>
+        <strong>该功能需要3.2.3以上版本，3.2.3以下版本仅对mysql数据库支持</strong>
+      </p>
+    </blockquote>
+  </body>
+</html>

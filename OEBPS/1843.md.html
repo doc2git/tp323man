@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>ThinkPHP支持表单令牌验证功能，可以有效防止表单的重复提交等安全防护。</p>
+    <p>要启用表单令牌功能，需要配置行为绑定，在应用或者模块的配置目录下面的行为定义文件tags.php中，添加：</p>
+    <pre>
+      <code>return array(
+     // 添加下面一行定义即可
+     'view_filter' =&gt; array('Behavior\TokenBuild'),
+    // 如果是3.2.1以上版本 需要改成
+    // 'view_filter' =&gt; array('Behavior\TokenBuildBehavior'),
+);</code>
+    </pre>
+    <p>表示在<code>view_filter</code>标签位置执行表单令牌检测行为。</p>
+    <p>表单令牌验证相关的配置参数有：</p>
+    <pre>
+      <code>'TOKEN_ON'      =&gt;    true,  // 是否开启令牌验证 默认关闭
+'TOKEN_NAME'    =&gt;    '__hash__',    // 令牌验证的表单隐藏字段名称，默认为__hash__
+'TOKEN_TYPE'    =&gt;    'md5',  //令牌哈希验证规则 默认为MD5
+'TOKEN_RESET'   =&gt;    true,  //令牌验证出错后是否重置令牌 默认为true</code>
+    </pre>
+    <p>如果开启表单令牌验证功能，系统会自动在带有表单的模板文件里面自动生成以<strong>TOKEN_NAME</strong>为名称的隐藏域，其值则是<strong>TOKEN_TYPE</strong>方式生成的哈希字符串，用于实现表单的自动令牌验证。</p>
+    <p>自动生成的隐藏域位于表单Form结束标志之前，如果希望自己控制隐藏域的位置，可以手动在表单页面添加<code>{__TOKEN__}</code>标识，系统会在输出模板的时候自动替换。</p>
+    <blockquote class="">
+      <p>如果页面中存在多个表单，建议添加标识，并确保只有一个表单需要令牌验证。</p>
+    </blockquote>
+    <p>如果个别页面输出不希望进行表单令牌验证，可以在控制器中的输出方法之前动态关闭表单令牌验证，例如：</p>
+    <pre>
+      <code>C('TOKEN_ON',false);
+$this-&gt;display();</code>
+    </pre>
+    <p>模型类在创建数据对象的同时会自动进行表单令牌验证操作，如果你没有使用create方法创建数据对象的话，则需要手动调用模型的<code>autoCheckToken</code>方法进行表单令牌验证。如果返回false，则表示表单令牌验证错误。例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+ // 手动进行令牌验证
+ if (!$User-&gt;autoCheckToken($_POST)){
+ // 令牌验证错误
+ }</code>
+    </pre>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>扩展配置可以支持自动加载额外的自定义配置文件，并且配置格式和项目配置一样。 </p>
+    <p>设置扩展配置的方式如下（多个文件用逗号分隔）：</p>
+    <pre>
+      <code>// 加载扩展配置文件
+'LOAD_EXT_CONFIG' =&gt; 'user,db', </code>
+    </pre>
+    <p>假设扩展配置文件<code>user.php</code> 和<code>db.php</code>分别用于用户配置和数据库配置，这样做的好处是哪怕以后关闭调试模式，你修改db配置文件后依然会自动生效。</p>
+    <p>如果在应用公共设置文件中配置的话，那么会自动加载应用公共配置目录下面的配置文件<code>Application/Common/Conf/user.php</code>和<code>Application/Common/Conf/db.php</code>。</p>
+    <p>如果在模块（假设是Home模块）的配置文件中配置的话，则会自动加载模块目录下面的配置文件 <code>Application/Home/Conf/user.php</code> 和 <code>Application/Home/Conf/db.php</code>。</p>
+    <p>默认情况下，扩展配置文件中的设置参数会并入项目配置文件中。也就是默认都是一级配置参数，例如user.php中的配置参数如下：</p>
+    <pre>
+      <code>&lt;?php
+//用户配置文件
+return array(
+    'USER_TYPE'      =&gt; 2, //用户类型
+    'USER_AUTH_ID'   =&gt; 10, //用户认证ID
+    'USER_AUTH_TYPE' =&gt; 2, //用户认证模式
+);</code>
+    </pre>
+    <p>那么，最终获取用户参数的方式是：</p>
+    <pre>
+      <code>C('USER_AUTH_ID');</code>
+    </pre>
+    <p>如果配置文件改成：</p>
+    <pre>
+      <code>// 加载扩展配置文件
+'LOAD_EXT_CONFIG' =&gt; array('USER'=&gt;'user','DB'=&gt;'db'), </code>
+    </pre>
+    <p>则最终获取用户参数的方式改成：</p>
+    <pre>
+      <code>C('USER.USER_AUTH_ID');</code>
+    </pre>
+  </body>
+</html>

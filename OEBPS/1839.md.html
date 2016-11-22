@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>要使用静态缓存功能，需要开启<code>HTML_CACHE_ON</code>参数，并且使用<code>HTML_CACHE_RULES</code>配置参数设置静态缓存规则文件 。</p>
+    <blockquote class="">
+      <p>虽然也可以在应用配置文件中定义静态缓存规则，但是建议是在模块配置文件中为不同的模块定义静态缓存规则。</p>
+    </blockquote>
+    <h2 id="%E9%9D%99%E6%80%81%E8%A7%84%E5%88%99%E5%AE%9A%E4%B9%89">静态规则定义</h2>
+    <p>静态规则的定义方式如下：</p>
+    <pre>
+      <code>'HTML_CACHE_ON'     =&gt;    true, // 开启静态缓存
+'HTML_CACHE_TIME'   =&gt;    60,   // 全局静态缓存有效期（秒）
+'HTML_FILE_SUFFIX'  =&gt;    '.shtml', // 设置静态缓存文件后缀
+'HTML_CACHE_RULES'  =&gt;     array(  // 定义静态缓存规则
+     // 定义格式1 数组方式
+     '静态地址'    =&gt;     array('静态规则', '有效期', '附加规则'), 
+     // 定义格式2 字符串方式
+     '静态地址'    =&gt;     '静态规则', 
+)</code>
+    </pre>
+    <p>定义格式1采用数组方式 便于单独为某个静态规则设置不同的有效期，定义格式2采用字符串方式订阅静态规则，同时采用<code>HTML_CACHE_TIME</code>设置的全局静态缓存有效期。</p>
+    <blockquote class="">
+      <p>静态缓存文件的根目录在<code>HTML_PATH</code>定义的路径下面，并且只有定义了静态规则的操作才会进行静态缓存。 并且静态缓存支持不同的存储类型。 静态缓存仅在GET请求下面有效。</p>
+    </blockquote>
+    <h3 id="%E9%9D%99%E6%80%81%E5%9C%B0%E5%9D%80">静态地址</h3>
+    <p>静态地址包括下面几种定义格式：</p>
+    <p>第一种是定义全局的操作静态规则，例如定义所有的read操作的静态规则为：</p>
+    <pre>
+      <code>'read'=&gt;array('{id}',60)</code>
+    </pre>
+    <p>其中，<code>{id}</code> 表示取<code>$_GET['id']</code> 为静态缓存文件名，第二个参数表示缓存60秒。</p>
+    <p>第二种是定义全局的控制器静态规则，例如定义所有的User控制器的静态规则为：</p>
+    <pre>
+      <code>'user:'=&gt;array('User/{:action}_{id}','600')</code>
+    </pre>
+    <p>其中，<code>{:action}</code> 表示当前的操作名称</p>
+    <p>第三种是定义某个控制器的操作的静态规则，例如，我们需要定义Blog控制器的read操作进行静态缓存</p>
+    <pre>
+      <code>'blog:read'=&gt;array('{id}',0)</code>
+    </pre>
+    <p>第四种方式是定义全局的静态缓存规则，这个属于特殊情况下的使用，任何模块的操作都适用，例如</p>
+    <pre>
+      <code>'*'=&gt;array('{$_SERVER.REQUEST_URI|md5}'),</code>
+    </pre>
+    <p>表示根据当前的URL进行缓存。</p>
+    <h3 id="%E9%9D%99%E6%80%81%E8%A7%84%E5%88%99">静态规则</h3>
+    <p>静态规则是用于定义要生成的静态文件的名称，静态规则的定义要确保不会冲突，写法可以包括以下情况：</p>
+    <h4 id="1%E3%80%81%E4%BD%BF%E7%94%A8%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F">1、使用系统变量</h4>
+    <p>包括 <code>_GET</code>、<code>_REQUEST</code>、<code>_SERVER</code>、<code>_SESSION</code>、<code>_COOKIE</code> 格式：</p>
+    <pre>
+      <code>{$_×××|function}</code>
+    </pre>
+    <p>例如：</p>
+    <pre>
+      <code>{$_GET.name} 
+{$_SERVER.REQUEST_URI|md5}</code>
+    </pre>
+    <h4 id="2%E3%80%81%E4%BD%BF%E7%94%A8%E6%A1%86%E6%9E%B6%E7%89%B9%E5%AE%9A%E7%9A%84%E5%8F%98%E9%87%8F">2、使用框架特定的变量</h4>
+    <p><code>{:module}</code> 、<code>{:controller}</code> 和<code>{:action}</code> 分别表示当前模块名、控制器名和操作名。</p>
+    <p>例如：</p>
+    <pre>
+      <code>{:module}/{:controller}_{:action}</code>
+    </pre>
+    <h4 id="3%E3%80%81%E4%BD%BF%E7%94%A8_get%E5%8F%98%E9%87%8F">3、使用_GET变量</h4>
+    <p><code>{var|function}</code>也就是说 <code>{id}</code> 其实等效于 <code>{$_GET.id}</code></p>
+    <h4 id="4%E3%80%81%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0">4、直接使用函数</h4>
+    <p>{|function} 例如：</p>
+    <pre>
+      <code>{|time}</code>
+    </pre>
+    <h4 id="5%E3%80%81%E6%94%AF%E6%8C%81%E6%B7%B7%E5%90%88%E5%AE%9A%E4%B9%89">5、支持混合定义</h4>
+    <p>例如我们可以定义一个静态规则为：</p>
+    <pre>
+      <code>'{id},{name|md5}' </code>
+    </pre>
+    <p>在{}之外的字符作为字符串对待，如果包含有"/"，会自动创建目录。</p>
+    <p>例如，定义下面的静态规则：</p>
+    <pre>
+      <code>{:module}/{:action}_{id}</code>
+    </pre>
+    <p>则会在静态目录下面创建模块名称的子目录，然后写入操作名_id.shtml 文件。</p>
+    <h3 id="%E9%9D%99%E6%80%81%E7%BC%93%E5%AD%98%E6%9C%89%E6%95%88%E6%9C%9F">静态缓存有效期</h3>
+    <p>单位为秒。如果不定义，则会获取配置参数<code>HTML_CACHE_TIME</code> 的设置值，如果定义为0则表示永久缓存。</p>
+    <h3 id="%E9%99%84%E5%8A%A0%E8%A7%84%E5%88%99">附加规则</h3>
+    <p>通常用于对静态规则进行函数运算，例如</p>
+    <pre>
+      <code>'read'=&gt;array('Think{id},{name}','60', 'md5') </code>
+    </pre>
+    <p>翻译后的静态规则是 <code>md5('Think'.$_GET['id']. ', '.$_GET['name']);</code></p>
+  </body>
+</html>

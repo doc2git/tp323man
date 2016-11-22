@@ -1,0 +1,17 @@
+#logo{
+    float: right;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 50px;
+    width: 320px;
+    height: 60px;
+    color: #bbb;
+}
+a{
+    padding: 2px;
+    font-size: 15px;
+    font-weight: 900;
+    text-decoration-color: #bbb;
+    color: #764
+}

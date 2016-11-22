@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <h2 id="%E9%97%AD%E5%8C%85%E5%AE%9A%E4%B9%89">闭包定义</h2>
+    <p>我们可以使用闭包的方式定义一些特殊需求的路由，而不需要执行控制器的操作方法了，例如：</p>
+    <pre>
+      <code>'URL_ROUTE_RULES'=&gt;array(
+    'test'        =&gt; 
+        function(){ 
+            echo 'just test';
+        },
+    'hello/:name' =&gt; 
+        function($name){ 
+            echo 'Hello,'.$name;
+        }
+）</code>
+    </pre>
+    <h2 id="%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92">参数传递</h2>
+    <p>闭包定义的参数传递在规则路由和正则路由的两种情况下有所区别。</p>
+    <h5 id="%E8%A7%84%E5%88%99%E8%B7%AF%E7%94%B1">规则路由</h5>
+    <p>规则路由的参数传递比较简单：</p>
+    <pre>
+      <code>'hello/:name' =&gt; 
+    function($name){ 
+        echo 'Hello,'.$name;
+    }</code>
+    </pre>
+    <p>规则路由中定义的动态变量的名称 就是闭包函数中的参数名称，不分次序。 因此，如果我们访问的URL地址是： <code>http://serverName/Home/hello/thinkphp</code></p>
+    <p>则浏览器输出的结果是： <code>Hello,thinkphp</code></p>
+    <p>如果多个参数可以使用：</p>
+    <pre>
+      <code>'blog/:year/:month' =&gt; 
+    function($year,$month){ 
+        echo 'year='.$year.'&amp;month='.$month;
+    }</code>
+    </pre>
+    <h5 id="%E6%AD%A3%E5%88%99%E8%B7%AF%E7%94%B1">正则路由</h5>
+    <p>如果是正则路由的话，闭包函数中的参数就以正则中出现的参数次序来传递，例如：</p>
+    <pre>
+      <code>'/^new\/(\d{4})\/(\d{2})$/' =&gt; 
+    function($year,$month){ 
+        echo 'year='.$year.'&amp;month='.$month;
+    }</code>
+    </pre>
+    <p>如果我们访问： <code>http://serverName/Home/new/2013/03</code> 浏览器输出结果是： <code>year=2013&amp;month=03</code></p>
+    <h2 id="%E7%BB%A7%E7%BB%AD%E6%89%A7%E8%A1%8C">继续执行</h2>
+    <p>默认的情况下，使用闭包定义路由的话，一旦匹配到路由规则，执行完闭包方法之后，就会中止后续执行。如果希望闭包函数执行后，后续的程序继续执行，可以在闭包函数中使用布尔类型的返回值，例如：</p>
+    <pre>
+      <code>'hello/:name' =&gt; 
+    function($name){ 
+        echo 'Hello,'.$name.'&lt;br/&gt;';
+        $_SERVER['PATH_INFO'] = 'blog/read/name/'.$name;
+        return false;
+    }</code>
+    </pre>
+    <p>该路由定义中的闭包函数首先执行了一段输出代码，然后重新设置了<code>$_SERVER['PATH_INFO']</code>变量，交给后续的程序继续执行，因为返回值是false，所以会继续执行控制器和操作的检测，从而会执行Blog控制器的read操作方法。</p>
+    <p>假设blog控制器中的read操作方法代码如下：</p>
+    <pre>
+      <code>public function read($name){
+    echo 'read,'.$name.'!&lt;br/&gt;';
+}</code>
+    </pre>
+    <p>如果我们访问的URL地址是： <code>http://serverName/Home/hello/thinkphp</code></p>
+    <p>则浏览器输出的结果是：</p>
+    <pre>
+      <code>Hello,thinkphp
+read,thinkphp!</code>
+    </pre>
+  </body>
+</html>

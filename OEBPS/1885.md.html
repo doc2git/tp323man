@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>系统内置了<code>get_client_ip</code>方法用于获取客户端的IP地址，使用示例：</p>
+    <pre>
+      <code>$ip = get_client_ip();</code>
+    </pre>
+    <p>如果要支持IP定位功能，需要使用扩展类库<code>Org\Net\IpLocation</code>，并且要配合IP地址库文件一起使用，例如：</p>
+    <pre>
+      <code>$Ip = new \Org\Net\IpLocation('UTFWry.dat'); // 实例化类 参数表示IP地址库文件
+$area = $Ip-&gt;getlocation('203.34.5.66'); // 获取某个IP地址所在的位置</code>
+    </pre>
+    <p>如果传入的参数为空，则会自动获取当前的客户端IP地址，要正确输出位置，必须配合UTF8编码的ip地址库文件，否则可能还需要进行编码转换。</p>
+    <blockquote class="">
+      <p>IP地址库文件和IpLocation类库位于同一目录即可。</p>
+    </blockquote>
+  </body>
+</html>

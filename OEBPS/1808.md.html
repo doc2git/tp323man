@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>用法：</p>
+    <pre>
+      <code>&lt;switch name="变量" &gt;
+&lt;case value="值1" break="0或1"&gt;输出内容1&lt;/case&gt;
+&lt;case value="值2"&gt;输出内容2&lt;/case&gt;
+&lt;default /&gt;默认情况
+&lt;/switch&gt;</code>
+    </pre>
+    <p>使用方法如下：</p>
+    <pre>
+      <code>&lt;switch name="User.level"&gt;
+    &lt;case value="1"&gt;value1&lt;/case&gt;
+    &lt;case value="2"&gt;value2&lt;/case&gt;
+    &lt;default /&gt;default
+&lt;/switch&gt;</code>
+    </pre>
+    <p>其中name属性可以使用函数以及系统变量，例如：</p>
+    <pre>
+      <code>&lt;switch name="Think.get.userId|abs"&gt;
+    &lt;case value="1"&gt;admin&lt;/case&gt;
+    &lt;default /&gt;default
+&lt;/switch&gt;</code>
+    </pre>
+    <p>对于case的value属性可以支持多个条件的判断，使用”|”进行分割，例如：</p>
+    <pre>
+      <code>&lt;switch name="Think.get.type"&gt;
+    &lt;case value="gif|png|jpg"&gt;图像格式&lt;/case&gt;
+    &lt;default /&gt;其他格式
+&lt;/switch&gt;</code>
+    </pre>
+    <p>表示如果$_GET["type"] 是gif、png或者jpg的话，就判断为图像格式。</p>
+    <p>Case标签还有一个break属性，表示是否需要break，默认是会自动添加break，如果不要break，可以使用：</p>
+    <pre>
+      <code>&lt;switch name="Think.get.userId|abs"&gt;
+    &lt;case value="1" break="0"&gt;admin&lt;/case&gt;
+    &lt;case value="2"&gt;admin&lt;/case&gt;
+    &lt;default /&gt;default
+&lt;/switch&gt;</code>
+    </pre>
+    <p>也可以对case的value属性使用变量，例如：</p>
+    <pre>
+      <code>&lt;switch name="User.userId"&gt;
+    &lt;case value="$adminId"&gt;admin&lt;/case&gt;
+    &lt;case value="$memberId"&gt;member&lt;/case&gt;
+    &lt;default /&gt;default
+&lt;/switch&gt;</code>
+    </pre>
+    <blockquote class="">
+      <p>使用变量方式的情况下，不再支持多个条件的同时判断。</p>
+    </blockquote>
+  </body>
+</html>

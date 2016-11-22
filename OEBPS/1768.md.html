@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>上面的查询条件仅仅是一个简单的相等判断，可以使用查询表达式支持更多的SQL查询语法，也是ThinkPHP查询语言的精髓，查询表达式的使用格式：</p>
+    <pre>
+      <code>$map['字段名'] = array('表达式','查询条件');</code>
+    </pre>
+    <p>表达式不分大小写，支持的查询表达式有下面几种，分别表示的含义是：</p>
+    <table>
+      <thead>
+        <tr>
+          <th>表达式</th>
+          <th>含义</th>
+          <th>协助记忆</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>EQ</td>
+          <td>等于（=）</td>
+          <td>equal</td>
+        </tr>
+        <tr>
+          <td>NEQ</td>
+          <td>不等于（）</td>
+          <td>not equal</td>
+        </tr>
+        <tr>
+          <td>GT</td>
+          <td>大于（&gt;）</td>
+          <td>greater</td>
+        </tr>
+        <tr>
+          <td>EGT</td>
+          <td>大于等于（&gt;=）</td>
+          <td>equal or greater</td>
+        </tr>
+        <tr>
+          <td>LT</td>
+          <td>小于（&lt;）</td>
+          <td>less than</td>
+        </tr>
+        <tr>
+          <td>ELT</td>
+          <td>小于等于（&lt;=）</td>
+          <td>equal or less than</td>
+        </tr>
+        <tr>
+          <td>LIKE</td>
+          <td>模糊查询</td>
+          <td/>
+        </tr>
+        <tr>
+          <td>[NOT] BETWEEN</td>
+          <td>（不在）区间查询</td>
+          <td/>
+        </tr>
+        <tr>
+          <td>[NOT] IN</td>
+          <td>（不在）IN 查询</td>
+          <td/>
+        </tr>
+        <tr>
+          <td>EXP</td>
+          <td>表达式查询，支持SQL语法</td>
+          <td>expression</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>表达式查询的用法示例如下：</p>
+    <h2 id="eq+%EF%BC%9A%E7%AD%89%E4%BA%8E%EF%BC%88%3D%EF%BC%89">EQ ：等于（=）</h2>
+    <p>例如：</p>
+    <pre>
+      <code>$map['id']  = array('eq',100);</code>
+    </pre>
+    <p>和下面的查询等效</p>
+    <pre>
+      <code>$map['id']  = 100;</code>
+    </pre>
+    <p>表示的查询条件就是 <code>id = 100</code></p>
+    <h2 id="neq%EF%BC%9A+%E4%B8%8D%E7%AD%89%E4%BA%8E%EF%BC%88%3C%3E%EF%BC%89">NEQ： 不等于（）</h2>
+    <p>例如：</p>
+    <pre>
+      <code>$map['id']  = array('neq',100);</code>
+    </pre>
+    <p>表示的查询条件就是 <code>id &lt;&gt; 100</code></p>
+    <h2 id="gt%EF%BC%9A%E5%A4%A7%E4%BA%8E%EF%BC%88%3E%EF%BC%89">GT：大于（&gt;）</h2>
+    <p>例如：</p>
+    <pre>
+      <code>$map['id']  = array('gt',100);</code>
+    </pre>
+    <p>表示的查询条件就是 <code>id &gt; 100</code></p>
+    <h2 id="egt%EF%BC%9A%E5%A4%A7%E4%BA%8E%E7%AD%89%E4%BA%8E%EF%BC%88%3E%3D%EF%BC%89">EGT：大于等于（&gt;=）</h2>
+    <p>例如：</p>
+    <pre>
+      <code>$map['id']  = array('egt',100);</code>
+    </pre>
+    <p>表示的查询条件就是 <code>id &gt;= 100</code></p>
+    <h2 id="lt%EF%BC%9A%E5%B0%8F%E4%BA%8E%EF%BC%88%3C%EF%BC%89">LT：小于（&lt;）</h2>
+    <p>例如：</p>
+    <pre>
+      <code>$map['id']  = array('lt',100);</code>
+    </pre>
+    <p>表示的查询条件就是 <code>id &lt; 100</code></p>
+    <h2 id="elt%EF%BC%9A+%E5%B0%8F%E4%BA%8E%E7%AD%89%E4%BA%8E%EF%BC%88%3C%3D%EF%BC%89">ELT： 小于等于（&lt;=）</h2>
+    <p>例如：</p>
+    <pre>
+      <code>$map['id']  = array('elt',100);</code>
+    </pre>
+    <p>表示的查询条件就是 <code>id &lt;= 100</code></p>
+    <h2 id="%5Bnot%5D+like%EF%BC%9A+%E5%90%8Csql%E7%9A%84like">[NOT] LIKE： 同sql的LIKE</h2>
+    <p>例如：</p>
+    <pre>
+      <code>$map['name'] = array('like','thinkphp%');</code>
+    </pre>
+    <p>查询条件就变成 <code>name like 'thinkphp%'</code> 如果配置了DB_LIKE_FIELDS参数的话，某些字段也会自动进行模糊查询。例如设置了：</p>
+    <pre>
+      <code>'DB_LIKE_FIELDS'=&gt;'title|content'</code>
+    </pre>
+    <p>的话，使用</p>
+    <pre>
+      <code>$map['title'] = 'thinkphp';</code>
+    </pre>
+    <p>查询条件就会变成 <code>title like '%thinkphp%'</code> 支持数组方式，例如</p>
+    <pre>
+      <code>$map['a'] =array('like',array('%thinkphp%','%tp'),'OR');
+$map['b'] =array('notlike',array('%thinkphp%','%tp'),'AND');</code>
+    </pre>
+    <p>生成的查询条件就是：</p>
+    <pre>
+      <code>(a like '%thinkphp%' OR a like '%tp') AND (b not like '%thinkphp%' AND b not like '%tp')</code>
+    </pre>
+    <h2 id="%5Bnot%5D+between+%EF%BC%9A%E5%90%8Csql%E7%9A%84%5Bnot%5D+between">[NOT] BETWEEN ：同sql的[not] between</h2>
+    <p>查询条件支持字符串或者数组，例如：</p>
+    <pre>
+      <code>$map['id']  = array('between','1,8');</code>
+    </pre>
+    <p>和下面的等效：</p>
+    <pre>
+      <code>$map['id']  = array('between',array('1','8'));</code>
+    </pre>
+    <p>查询条件就变成 <code>id BETWEEN 1 AND 8</code></p>
+    <h2 id="%5Bnot%5D+in%EF%BC%9A+%E5%90%8Csql%E7%9A%84%5Bnot%5D+in">[NOT] IN： 同sql的[not] in</h2>
+    <p>查询条件支持字符串或者数组，例如：</p>
+    <pre>
+      <code>$map['id']  = array('not in','1,5,8');</code>
+    </pre>
+    <p>和下面的等效：</p>
+    <pre>
+      <code>$map['id']  = array('not in',array('1','5','8'));</code>
+    </pre>
+    <p>查询条件就变成 <code>id NOT IN (1,5, 8)</code></p>
+    <h2 id="exp%EF%BC%9A%E8%A1%A8%E8%BE%BE%E5%BC%8F">EXP：表达式</h2>
+    <p>支持更复杂的查询情况 例如：</p>
+    <pre>
+      <code>$map['id']  = array('in','1,3,8');</code>
+    </pre>
+    <p>可以改成：</p>
+    <pre>
+      <code>$map['id']  = array('exp',' IN (1,3,8) ');</code>
+    </pre>
+    <p>exp查询的条件不会被当成字符串，所以后面的查询条件可以使用任何SQL支持的语法，包括使用函数和字段名称。查询表达式不仅可用于查询条件，也可以用于数据更新，例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+// 要修改的数据对象属性赋值
+$data['name'] = 'ThinkPHP';
+$data['score'] = array('exp','score+1');// 用户的积分加1
+$User-&gt;where('id=5')-&gt;save($data); // 根据条件保存修改的数据 </code>
+    </pre>
+  </body>
+</html>

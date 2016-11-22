@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>GROUP方法也是连贯操作方法之一，通常用于结合合计函数，根据一个或多个列对结果集进行分组 。</p>
+    <p>group方法只有一个参数，并且只能使用字符串。</p>
+    <p>例如，我们都查询结果按照用户id进行分组统计：</p>
+    <pre>
+      <code>$this-&gt;field('user_id,username,max(score)')-&gt;group('user_id')-&gt;select();</code>
+    </pre>
+    <p>生成的SQL语句是： </p>
+    <pre>
+      <code>SELECT user_id,username,max(score) FROM think_score GROUP BY user_id</code>
+    </pre>
+    <p>也支持对多个字段进行分组，例如：</p>
+    <pre>
+      <code>$this-&gt;field('user_id,test_time,username,max(score)')-&gt;group('user_id,test_time')-&gt;select();</code>
+    </pre>
+    <p>生成的SQL语句是：</p>
+    <pre>
+      <code>SELECT user_id,test_time,username,max(score) FROM think_score GROUP BY user_id,test_time</code>
+    </pre>
+  </body>
+</html>

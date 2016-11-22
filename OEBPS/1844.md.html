@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>对于WEB应用来说，SQL注入攻击无疑是首要防范的安全问题，系统底层对于数据安全方面本身进行了很多的处理和相应的防范机制，例如：</p>
+    <pre>
+      <code>$User = M("User"); // 实例化User对象
+$User-&gt;find($_GET["id"]); </code>
+    </pre>
+    <p>即便用户输入了一些恶意的id参数，系统也会强制转换成整型，避免恶意注入。这是因为，系统会对数据进行强制的数据类型检测，并且对数据来源进行数据格式转换。而且，对于字符串类型的数据，ThinkPHP都会进行escape_string处理(real_escape_string,mysql_escape_string)，还支持参数绑定。</p>
+    <p>通常的安全隐患在于你的查询条件使用了字符串参数，然后其中一些变量又依赖由客户端的用户输入。</p>
+    <p>
+      <strong>要有效的防止SQL注入问题，我们建议：</strong>
+    </p>
+    <blockquote class="">
+      <ul>
+        <li>查询条件尽量使用数组方式，这是更为安全的方式；</li>
+        <li>如果不得已必须使用字符串查询条件，使用预处理机制；</li>
+        <li>使用自动验证和自动完成机制进行针对应用的自定义过滤；</li>
+        <li>如果环境允许，尽量使用PDO方式，并使用<a href="#">参数绑定</a>。</li>
+      </ul>
+    </blockquote>
+    <h2 id="%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6%E9%A2%84%E5%A4%84%E7%90%86">查询条件预处理</h2>
+    <p>where方法使用字符串条件的时候，支持预处理（安全过滤），并支持两种方式传入预处理参数，例如：</p>
+    <pre>
+      <code>$Model-&gt;where("id=%d and username='%s' and xx='%f'",array($id,$username,$xx))-&gt;select();
+// 或者
+$Model-&gt;where("id=%d and username='%s' and xx='%f'",$id,$username,$xx)-&gt;select();</code>
+    </pre>
+    <p>模型的query和execute方法 同样支持预处理机制，例如：</p>
+    <pre>
+      <code>$model-&gt;query('select * from user where id=%d and status=%d',$id,$status);
+//或者
+$model-&gt;query('select * from user where id=%d and status=%d',array($id,$status));</code>
+    </pre>
+    <p>execute方法用法同query方法。</p>
+  </body>
+</html>

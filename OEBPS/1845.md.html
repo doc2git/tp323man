@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <meta http-equiv="Default-Style" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Test Book</title>
+  </head>
+  <body class="book-content">
+    <p>为了避免某些服务器开启了目录浏览权限后可以直接在浏览器输入URL地址查看目录，系统默认开启了目录安全文件机制，会在自动生成目录的时候生成空白的<code>index.html</code>文件，当然安全文件的名称可以设置，例如你想给安全文件定义为<code>default.html</code>可以在入口文件中添加：</p>
+    <pre>
+      <code>define('DIR_SECURE_FILENAME', 'default.html');
+define('APP_PATH','./Application/');
+require './ThinkPHP/ThinkPHP.php';</code>
+    </pre>
+    <p>还可以支持多个安全文件写入，例如你想同时写入index.html和index.htm 两个文件，以满足不同的服务器部署环境，可以这样定义：</p>
+    <pre>
+      <code>define('DIR_SECURE_FILENAME', 'index.html,index.htm');</code>
+    </pre>
+    <p>默认的安全文件只是写入一个空白字符串，如果需要写入其他内容，可以通过DIR_SECURE_CONTENT参数来指定，例如：</p>
+    <pre>
+      <code>define('DIR_SECURE_CONTENT', 'deny Access!');</code>
+    </pre>
+    <blockquote class="">
+      <p>注意：目录安全文件仅在第一次生成模块目录的时候生成。如果是3.2.1版本以上，则可以调用代码生成，例如：</p>
+    </blockquote>
+    <pre>
+      <code>// dirs变量是要生成安全文件的目录数组
+\Think\Build::buildDirSecure($dirs);</code>
+    </pre>
+  </body>
+</html>
